@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2-vue指令语法</title>
+    <title>vue指令语法</title>
     <url>/2023/11/06/2-vue%E6%8C%87%E4%BB%A4%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><p>种类：v-html, v-bind, v-on, v-model, v-slot …</p>
 <p>指令语法如下图所示：<br><img  
@@ -38,7 +38,7 @@
 <h3 id="v-if-v-show"><a href="#v-if-v-show" class="headerlink" title="v-if &amp; v-show"></a>v-if &amp; v-show</h3><p>（1）原理：v-if 切换时，条件区块会被销毁与重建；v-show 切换时，只会切换 display 属性</p>
 <p>（2）惰性：v-if 是惰性的，如果初始为 false 则不渲染；v-show 初始始终会渲染</p>
 <p>（3）场景：v-if 初始渲染开销较好，不会频繁切换时使用；v-show 切换开销较小，频繁切换时使用</p>
-<h2 id="v-for"><a href="#v-for" class="headerlink" title="v-for"></a>v-for</h2>]]></content>
+]]></content>
       <categories>
         <category>vue3 - 文档</category>
       </categories>
@@ -48,7 +48,7 @@
       </tags>
   </entry>
   <entry>
-    <title>1-vue3应用的创建&amp;使用</title>
+    <title>vue3应用的创建&amp;使用</title>
     <url>/2023/11/06/1-vue3%E5%BA%94%E7%94%A8%E7%9A%84%E5%88%9B%E5%BB%BA&amp;%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h2><div class="highlight-container" data-rel="Bash"><figure class="iseeu highlight bash"><table><tr><td class="code"><pre><span class="line">npm create vue@latest</span><br></pre></td></tr></table></figure></div>
 
@@ -82,7 +82,7 @@
       </tags>
   </entry>
   <entry>
-    <title>3-vue3响应式</title>
+    <title>vue3响应式</title>
     <url>/2023/11/06/3-vue3%E5%93%8D%E5%BA%94%E5%BC%8F/</url>
     <content><![CDATA[<h2 id="ref"><a href="#ref" class="headerlink" title="ref()"></a>ref()</h2><p>ref() 返回一个包含属性 value 的对象</p>
 <div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="title function_">setup</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> count = <span class="title function_">ref</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">increment</span>(<span class="params"></span>) &#123;</span><br><span class="line">            count.<span class="property">value</span>++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            count,</span><br><span class="line">            increment</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
@@ -133,11 +133,22 @@
       </tags>
   </entry>
   <entry>
-    <title>4-vue3计算属性</title>
+    <title>vue3计算属性</title>
     <url>/2023/11/07/4-vue3%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7/</url>
     <content><![CDATA[<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><p>computed() 方法接受一个 getter 函数，返回一个计算属性 ref</p>
 <p>因为 ref 会在模板中自动解包，所以在表达式中引用无需 .value</p>
 <div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> &#123; reactive, computed &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> author = <span class="title function_">reactive</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">name</span>: <span class="string">&quot;Zoella&quot;</span>,</span></span><br><span class="line"><span class="language-javascript">    <span class="attr">books</span>: [<span class="string">&#x27;vue2&#x27;</span>, <span class="string">&#x27;vue3&#x27;</span>, <span class="string">&#x27;vue4&#x27;</span>]</span></span><br><span class="line"><span class="language-javascript">&#125;);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> hasBookPublished = <span class="title function_">computed</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">return</span> author.<span class="property">books</span>.<span class="property">length</span> &gt; <span class="number">0</span> ? <span class="string">&#x27;yes&#x27;</span> : <span class="string">&#x27;no&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">&#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; author.name &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span> has published books: </span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; hasBookPublished &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="计算属性缓存-VS-方法"><a href="#计算属性缓存-VS-方法" class="headerlink" title="计算属性缓存 VS 方法"></a>计算属性缓存 VS 方法</h2><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; calculateBooksMessage() &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">calculateBooksMessage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> author.<span class="property">books</span>.<span class="property">length</span> &gt; <span class="number">0</span> ? <span class="string">&#x27;yes&#x27;</span> : <span class="string">&#x27;no&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>计算属性比方法节省性能。</p>
+<p>将与上述相同的函数定义为方法，结果和计算属性相同，然而 <strong>计算属性值会基于其响应式依赖被缓存</strong>，只要<code>author.books</code>不变，就不会重复执行 getter 函数。但是方法总会在重渲染发生时再次执行函数。</p>
+<h2 id="可写计算属性"><a href="#可写计算属性" class="headerlink" title="可写计算属性"></a>可写计算属性</h2><p>计算属性默认为只读。特殊场景下会用到“可写”的计算属性。</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> &#123; ref, computed &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> firstName = <span class="title function_">ref</span>(<span class="string">&#x27;John&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> lastName = <span class="title function_">ref</span>(<span class="string">&#x27;Doe&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> fullName = <span class="title function_">computed</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// getter</span></span></span><br><span class="line"><span class="language-javascript">  <span class="title function_">get</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">return</span> firstName.<span class="property">value</span> + <span class="string">&#x27; &#x27;</span> + lastName.<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">  &#125;,</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// setter</span></span></span><br><span class="line"><span class="language-javascript">  <span class="title function_">set</span>(<span class="params">newValue</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    [firstName.<span class="property">value</span>, lastName.<span class="property">value</span>] = newValue.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">&#125;)</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>当运行 <code>fullName.value = &#39;Zoella Wang&#39;</code> 时，setter会被调用，firstName 和 lastName 会随之更新。</p>
 ]]></content>
       <categories>
         <category>vue3 - 文档</category>
@@ -148,7 +159,7 @@
       </tags>
   </entry>
   <entry>
-    <title>5-为什么vue组件添加scoped后某些组件样式不生效</title>
+    <title>为什么vue组件添加scoped后某些组件样式不生效</title>
     <url>/2023/11/14/5-%E4%B8%BA%E4%BB%80%E4%B9%88vue%E7%BB%84%E4%BB%B6%E6%B7%BB%E5%8A%A0scoped%E5%90%8E%E6%9F%90%E4%BA%9B%E7%BB%84%E4%BB%B6%E6%A0%B7%E5%BC%8F%E4%B8%8D%E7%94%9F%E6%95%88/</url>
     <content><![CDATA[<h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>在父组件中修改子组件的某些样式，发现不生效，删去<code>&lt;style scoped&gt;&lt;/style&gt;</code>中的 scoped 后生效。</p>
 <h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>scoped 实现样式隔离的原理为：</p>
