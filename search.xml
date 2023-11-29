@@ -246,7 +246,18 @@
 <div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;(index, key, value) in myObject&quot;</span>&gt;</span></span><br><span class="line">&#123;&#123; index &#125;&#125;. &#123;&#123; key &#125;&#125;: &#123;&#123; value &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
 
 <p>结果为：</p>
-<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><span class="line">0. title: How to do lists in Vue</span><br><span class="line">1. author: Jane Doe</span><br><span class="line">2. publishedAt: 2016-04-10</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Txt"><figure class="iseeu highlight txt"><table><tr><td class="code"><pre><span class="line">0. title: How to do lists in Vue</span><br><span class="line">1. author: Jane Doe</span><br><span class="line">2. publishedAt: 2016-04-10</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="v-for-与-v-if"><a href="#v-for-与-v-if" class="headerlink" title="v-for 与 v-if"></a>v-for 与 v-if</h2><p>v-if 比 v-for 优先级高</p>
+<p>错误用法：</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 此时 v-if 的 todo 还没有定义 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">&quot;todo in todos&quot;</span> <span class="attr">v-if</span>=<span class="string">&quot;!todo.isComplete&quot;</span>&gt;</span></span><br><span class="line">&#123;&#123; todo.name &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>正确用法：</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-for</span>=<span class="string">&quot;todo in todos&quot;</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-if</span>=<span class="string">&quot;!todo.isComplete&quot;</span>&gt;</span></span><br><span class="line">   &#123;&#123; todo.name &#125;&#125;</span><br><span class="line">   <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="通过-key-管理状态"><a href="#通过-key-管理状态" class="headerlink" title="通过 key 管理状态"></a>通过 key 管理状态</h2><p>Vue 默认按照 “就地更新” 的策略更新通过 v-for 渲染的列表。当数据项的顺序改变时，Vue 不会随之移动 DOM 元素的顺序，而是就地更新每个元素，确保它们在原本指定的索引位置上渲染。</p>
+<p>默认模式是高效的，但只适用于 <strong>列表渲染输出的结果不依赖子组件状态或者临时 DOM 状态 (例如表单输入值) 的情况</strong>。</p>
+<p>推荐在任何时候为 v-for 提供一个 key attribute，除非所迭代的 DOM 内容非常简单。</p>
 ]]></content>
   </entry>
 </search>
