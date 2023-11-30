@@ -259,5 +259,96 @@
 <p>默认模式是高效的，但只适用于 <strong>列表渲染输出的结果不依赖子组件状态或者临时 DOM 状态 (例如表单输入值) 的情况</strong>。</p>
 <p>推荐在任何时候为 v-for 提供一个 key attribute，除非所迭代的 DOM 内容非常简单。</p>
 ]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8-js事件</title>
+    <url>/2023/11/29/8-js%E4%BA%8B%E4%BB%B6/</url>
+    <content><![CDATA[<p>事件捕获和事件冒泡 是浏览器处理DOM元素事件的两种方式（顺序：先捕获，再冒泡）。</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="事件捕获"><a href="#事件捕获" class="headerlink" title="事件捕获"></a>事件捕获</h2><p>事件捕获从文档根节点开始，逐级向下传播到目标元素。</p>
+<p>点击 div，事件传播方向：document -&gt; html -&gt; body -&gt; div</p>
+<h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><p>事件冒泡指当目标元素触发了某事件时，事件会从该元素开始逐级向上传播，直到文档根节点。</p>
+<p>点击 div，事件传播方向：div -&gt; body -&gt; html -&gt; document</p>
+<h2 id="事件模型"><a href="#事件模型" class="headerlink" title="事件模型"></a>事件模型</h2><h3 id="DOM0-事件模型"><a href="#DOM0-事件模型" class="headerlink" title="DOM0 事件模型"></a>DOM0 事件模型</h3><p>DOM0 只在冒泡阶段处理事件处理程序。</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">&quot;handleClick&quot;</span>&gt;</span>click<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">handleClick</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">alert</span>(<span class="string">&#x27;clicked&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="DOM2-事件模型"><a href="#DOM2-事件模型" class="headerlink" title="DOM2 事件模型"></a>DOM2 事件模型</h3><p>DOM2 在捕获阶段和冒泡阶段都可以处理事件处理程序（更灵活可控）。</p>
+<p>使用：addEventListener() 和 removeEventListener()</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;myBtn&quot;</span>&gt;</span>click<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">handleClick</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">alert</span>(<span class="string">&#x27;clicked&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">const</span> btn = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;myBtn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  btn.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, handleClick);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="IE-事件模型"><a href="#IE-事件模型" class="headerlink" title="IE 事件模型"></a>IE 事件模型</h3><p>功能类似于 DOM0，使用方式上类似于 DOM2。</p>
+<p>使用 attachEvent() 和 detachEvent() 方法。</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;myBtn&quot;</span>&gt;</span>click<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">handleClick</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">alert</span>(<span class="string">&#x27;clicked&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">const</span> btn = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;myBtn&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">  btn.<span class="title function_">attachEvent</span>(<span class="string">&#x27;click&#x27;</span>, handleClick);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="js-实现事件修饰符"><a href="#js-实现事件修饰符" class="headerlink" title="js 实现事件修饰符"></a>js 实现事件修饰符</h2><h3 id="阻止默认行为-preventDefault"><a href="#阻止默认行为-preventDefault" class="headerlink" title="阻止默认行为 preventDefault"></a>阻止默认行为 preventDefault</h3><p>比如阻止链接的跳转或表单的提交</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;btn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  event.<span class="title function_">preventDefault</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="阻止事件冒泡-stopPropagation"><a href="#阻止事件冒泡-stopPropagation" class="headerlink" title="阻止事件冒泡 stopPropagation()"></a>阻止事件冒泡 stopPropagation()</h3><p>阻止事件传到父元素</p>
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;btn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  event.<span class="title function_">stopPropagation</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="一次性事件处理"><a href="#一次性事件处理" class="headerlink" title="一次性事件处理"></a>一次性事件处理</h3><div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">handleClick</span>(<span class="params">event</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, handleClick); <span class="comment">// 点击一次移除监听器</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;btn&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, handleClick);</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="获取键盘按键"><a href="#获取键盘按键" class="headerlink" title="获取键盘按键"></a>获取键盘按键</h3><div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;keydown&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">key</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="获取鼠标按键"><a href="#获取鼠标按键" class="headerlink" title="获取鼠标按键"></a>获取鼠标按键</h3><div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;mousedown&#x27;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(event.<span class="property">key</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
+]]></content>
+      <categories>
+        <category>JavaScript - 事件</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>9-vue事件处理</title>
+    <url>/2023/11/30/9-vue%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<p>v-on:click&#x3D;”” 缩写为 @click</p>
+<h2 id="在內联事件处理器中访问事件参数"><a href="#在內联事件处理器中访问事件参数" class="headerlink" title="在內联事件处理器中访问事件参数"></a>在內联事件处理器中访问事件参数</h2><p>在內联事件中访问原生 DOM 事件：</p>
+<h3 id="向处理器中传入一个-event-变量"><a href="#向处理器中传入一个-event-变量" class="headerlink" title="向处理器中传入一个 $event 变量"></a>向处理器中传入一个 $event 变量</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;warn(&#x27;message1&#x27;, $event)&quot;</span>&gt;</span></span><br><span class="line">Submit</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="使用内联箭头函数"><a href="#使用内联箭头函数" class="headerlink" title="使用内联箭头函数"></a>使用内联箭头函数</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;(event) =&gt; warn(&#x27;message1&#x27;, event)&quot;</span>&gt;</span></span><br><span class="line">Submit</span><br><span class="line"><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Js"><figure class="iseeu highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">warn</span>(<span class="params">message, event</span>) &#123;</span><br><span class="line">  <span class="comment">// 在此处可以访问原生事件</span></span><br><span class="line">  <span class="keyword">if</span> (event) &#123;</span><br><span class="line">    event.<span class="title function_">preventDefault</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">alert</span>(message)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="事件修饰符"><a href="#事件修饰符" class="headerlink" title="事件修饰符"></a>事件修饰符</h2><ul>
+<li>stop：调用 event.stopPropagation()，阻止事件继续传播。</li>
+<li>prevent：调用 event.preventDefault()，阻止事件的默认行为。</li>
+<li>self：只当事件是从原始目标元素本身触发时触发回调，如果事件是从内部元素冒泡上来的则不触发。</li>
+<li>capture：添加事件监听器时使用 capture 模式，即在捕获阶段触发而不是冒泡阶段。</li>
+<li>once：只触发一次事件，之后移除该监听器。</li>
+<li>passive：提升页面滚动性能，告诉浏览器事件处理函数不会调用 event.preventDefault()。</li>
+</ul>
+<h3 id="（1）-stop"><a href="#（1）-stop" class="headerlink" title="（1）.stop"></a>（1）.stop</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click.stop</span>=<span class="string">&quot;handleOuterClick&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;handleInnerClick&quot;</span>&gt;</span>内部按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>当内部按钮被点击时，handleOuterClick 不会被触发，因为事件不会继续向外部元素传播。</p>
+<h3 id="（2）-prevent"><a href="#（2）-prevent" class="headerlink" title="（2）.prevent"></a>（2）.prevent</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> @<span class="attr">submit.prevent</span>=<span class="string">&quot;handleSubmit&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>handleSubmit 方法中的 event.preventDefault() 将会被调用，从而阻止表单的默认提交行为。</p>
+<h3 id="（3）-self"><a href="#（3）-self" class="headerlink" title="（3）.self"></a>（3）.self</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click.self</span>=<span class="string">&quot;handleClick&quot;</span>&gt;</span>只有当点击该div本身时触发<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>只有当点击该 div 元素本身时，handleClick 方法才会被触发；div 内部其他元素冒泡上来的事件不会触发。</p>
+<h3 id="（4）-once"><a href="#（4）-once" class="headerlink" title="（4）.once"></a>（4）.once</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click.once</span>=<span class="string">&quot;handleClick&quot;</span>&gt;</span>点击我，只触发一次<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>当按钮被点击后，handleClick 方法只会被触发一次，之后该事件监听器会被移除。</p>
+<h3 id="（5）-capture"><a href="#（5）-capture" class="headerlink" title="（5）.capture"></a>（5）.capture</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">click.capture</span>=<span class="string">&quot;handleCaptureClick&quot;</span>&gt;</span>捕获阶段触发<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>事件监听器将在捕获阶段（从外向内）触发，而不是在冒泡阶段触发。</p>
+<h3 id="（6）-passive"><a href="#（6）-passive" class="headerlink" title="（6）.passive"></a>（6）.passive</h3><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> @<span class="attr">touchstart.passive</span>=<span class="string">&quot;handleTouchStart&quot;</span>&gt;</span>优化页面滚动性能<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>告诉浏览器 handleTouchStart 方法不会调用 event.preventDefault()，从而有助于提升页面滚动的性能。</p>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
   </entry>
 </search>
