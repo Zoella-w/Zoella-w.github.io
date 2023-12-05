@@ -400,7 +400,7 @@
   <entry>
     <title>11-vue3生命周期</title>
     <url>/2023/12/05/11-vue3%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
-    <content><![CDATA[<h2 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h2><img  
+    <content><![CDATA[<h2 id="vue3-生命周期图示"><a href="#vue3-生命周期图示" class="headerlink" title="vue3 生命周期图示"></a>vue3 生命周期图示</h2><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://cn.vuejs.org/assets/lifecycle.16e4c08e.png"
