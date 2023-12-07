@@ -406,6 +406,12 @@
                      data-src="https://cn.vuejs.org/assets/lifecycle.16e4c08e.png"
                       
                 >
+
+<h2 id="注册生命钩子"><a href="#注册生命钩子" class="headerlink" title="注册生命钩子"></a>注册生命钩子</h2><div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> &#123; onMounted &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="title function_">onMounted</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;now mounted&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">&#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<p>调用 onMounted 时，Vue 会自动将回调函数注册到当前正被初始化的组件实例上，所以该钩子应当被同步注册。</p>
+<p>这并不意味对 onMounted 的调用必须放在 setup() 或 <code>&lt;script setup&gt;</code> 内的词法上下文中。</p>
+<p>onMounted() 也可以在一个外部函数中调用，只要调用栈是同步的，且最终起源自 setup() 就可以。</p>
 ]]></content>
       <categories>
         <category>vue3 - 文档</category>
