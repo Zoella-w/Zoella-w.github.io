@@ -692,4 +692,85 @@
         <tag>vue</tag>
       </tags>
   </entry>
+  <entry>
+    <title>vue3 依赖注入</title>
+    <url>/2023/12/28/20-vue3%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h2 id="props-逐级透传"><a href="#props-逐级透传" class="headerlink" title="props 逐级透传"></a>props 逐级透传</h2><p>深层子组件需要较远的祖先组件中的部分数据，使用 props 逐级传递很麻烦：</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cn.vuejs.org/assets/prop-drilling.FyV2vFBP.png"
+                      
+                >
+
+
+<h2 id="provide（提供）"><a href="#provide（提供）" class="headerlink" title="provide（提供）"></a>provide（提供）</h2><p>为组件后代提供数据，使用 provide() 函数：</p>
+<div class="highlight-container" data-rel="Html"><figure class="iseeu highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> &#123; provide &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="title function_">provide</span>(<span class="comment">/* 注入名 */</span><span class="string">&#x27;message&#x27;</span>, <span class="comment">/* 注入值 */</span><span class="string">&#x27;value&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+]]></content>
+      <categories>
+        <category>vue3 - 文档</category>
+      </categories>
+      <tags>
+        <tag>vue3</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浏览器输入url后发生了什么</title>
+    <url>/2024/10/10/21-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5url%E5%90%8E%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88/</url>
+    <content><![CDATA[<h2 id="1-URL解析"><a href="#1-URL解析" class="headerlink" title="1. URL解析"></a>1. URL解析</h2><p>用户输入的URL（例如 <code>https://www.example.com/index.html</code>）首先被浏览器解析，该过程包括：</p>
+<ul>
+<li>提取协议（如HTTP或HTTPS）</li>
+<li>主机名（如<a class="link"   href="http://www.example.com)/" >www.example.com） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li>端口</li>
+<li>路径（如&#x2F;index.html）</li>
+<li>查询参数</li>
+<li>锚点</li>
+</ul>
+<h2 id="2-DNS-查询"><a href="#2-DNS-查询" class="headerlink" title="2. DNS 查询"></a>2. DNS 查询</h2><p>浏览器需要将域名转换为IP地址，以便进行网络通信。<br>此时，浏览器会查找本地DNS缓存，如果没有找到，就会向系统的DNS服务器发送请求。DNS服务器将返回对应的IP地址。</p>
+<h2 id="3-TCP连接"><a href="#3-TCP连接" class="headerlink" title="3. TCP连接"></a>3. TCP连接</h2><p>一旦获得了IP地址，浏览器通过TCP（传输控制协议）建立与目标服务器的连接。<br>对于HTTPS请求，还需要进行SSL&#x2F;TLS握手，以确保安全性。这一过程包括：</p>
+<ul>
+<li>客户端向服务器发送连接请求</li>
+<li>服务器确认并建立连接</li>
+<li>进行SSL&#x2F;TLS证书验证以及协商加密算法</li>
+</ul>
+<h2 id="4-发送HTTP请求"><a href="#4-发送HTTP请求" class="headerlink" title="4. 发送HTTP请求"></a>4. 发送HTTP请求</h2><p>连接建立后，浏览器构建一个HTTP请求并发送到服务器。这个请求包含：</p>
+<ul>
+<li>请求行（例如 GET &#x2F;index.html HTTP&#x2F;1.1）</li>
+<li>请求头（例如用户代理、接受类型等信息）</li>
+<li>请求体（对于POST请求，可能包含数据）</li>
+</ul>
+<h2 id="5-服务器处理请求"><a href="#5-服务器处理请求" class="headerlink" title="5. 服务器处理请求"></a>5. 服务器处理请求</h2><p>服务器接收到请求后，会根据请求的内容进行处理。它可能会查找文件、访问数据库或者执行其他逻辑，最终生成一个HTTP响应。</p>
+<h2 id="6-接收HTTP响应"><a href="#6-接收HTTP响应" class="headerlink" title="6. 接收HTTP响应"></a>6. 接收HTTP响应</h2><p>服务器发送回HTTP响应，包含状态码（如200表示成功，404表示未找到），响应头（如内容类型、内容长度等）和响应体（实际请求资源的内容，如HTML文档）。</p>
+<h2 id="7-渲染页面"><a href="#7-渲染页面" class="headerlink" title="7. 渲染页面"></a>7. 渲染页面</h2><p>浏览器接收响应后，进行以下步骤：</p>
+<ul>
+<li>解析HTML文档，构建DOM树</li>
+<li>如果遇到CSS文件，发起请求以获取样式，并构建CSSOM树</li>
+<li>合并DOM和CSSOM，生成渲染树</li>
+<li>根据渲染树计算布局，决定每个元素的位置和大小</li>
+<li>绘制页面，将内容绘制到屏幕上</li>
+</ul>
+<h2 id="8-处理JavaScript"><a href="#8-处理JavaScript" class="headerlink" title="8. 处理JavaScript"></a>8. 处理JavaScript</h2><p>如果HTML中包含JavaScript代码，浏览器会逐步执行这些脚本。<br>JavaScript可以操作DOM，改变页面内容，进行AJAX请求等。</p>
+<h2 id="9-其它资源加载"><a href="#9-其它资源加载" class="headerlink" title="9. 其它资源加载"></a>9. 其它资源加载</h2><p>如果页面中包含其他资源（如图片、音频、视频），浏览器会并行请求这些资源，直至全部加载完成。</p>
+<h2 id="案例说明"><a href="#案例说明" class="headerlink" title="案例说明"></a>案例说明</h2><p>假设用户在浏览器中输入<a class="link"   href="https://www.example.com/index.html%EF%BC%8C%E6%95%B4%E4%B8%AA%E8%BF%87%E7%A8%8B%E5%A6%82%E4%B8%8B%EF%BC%9A" >https://www.example.com/index.html，整个过程如下： <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<ol>
+<li>浏览器解析出协议为HTTPS，域名为<a class="link"   href="http://www.example.com./" >www.example.com。 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></li>
+<li>发送DNS请求，获得IP地址93.184.216.34。</li>
+<li>与该IP地址建立TCP连接，并进行TLS握手。</li>
+<li>发送GET请求，请求&#x2F;index.html资源。</li>
+<li>服务器处理请求，返回200状态及index.html内容。</li>
+<li>浏览器解析HTML，构建DOM树，并抓取相关的CSS和JavaScript文件。</li>
+<li>最终呈现完整的网页给用户。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机网络 - 综合</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+        <tag>计算机网络</tag>
+        <tag>url</tag>
+      </tags>
+  </entry>
 </search>
