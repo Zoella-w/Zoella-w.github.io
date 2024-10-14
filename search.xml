@@ -773,4 +773,47 @@
         <tag>url</tag>
       </tags>
   </entry>
+  <entry>
+    <title>浏览器解析url过程</title>
+    <url>/2024/10/14/22-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A7%A3%E6%9E%90url%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<h2 id="1-URL的格式"><a href="#1-URL的格式" class="headerlink" title="1. URL的格式"></a>1. URL的格式</h2><p>协议表示浏览器应当使用的访问方法，包括：”http：””ftp：””file：””mailto：”。<br>比如访问Web服务器使用HTTP协议，访问本地服务器使用FILE协议，访问FTP服务器使用FTP协议。</p>
+<p>图1 列举了常见的几种URL，访问自标不同，URL的写法也不同。<br>例如在访问Web服务器和FTP服务器时，URL中包含服务器的域名和要访问的文件的路径名等，而发邮件的URL则包含收件人的邮件地址。此外，URL还可能包含用户名、密码、服务器端口号等信息。</p>
+<p>图1.1：URL的各种格式<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/22-1.webp"
+                      alt="图1.1"
+                ></p>
+<h2 id="2-URL的组成元素"><a href="#2-URL的组成元素" class="headerlink" title="2. URL的组成元素"></a>2. URL的组成元素</h2><p>图1.2：Web浏览器解析url的过程<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/22-2.webp"
+                      alt="图1.2"
+                ></p>
+<p>图1.3：路径名为&#x2F;dir&#x2F;file1.html的文件<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/../images/22-3.webp"
+                      alt="图1.3"
+                ></p>
+<h2 id="3-省略文件名的情况"><a href="#3-省略文件名的情况" class="headerlink" title="3. 省略文件名的情况"></a>3. 省略文件名的情况</h2><h4 id="a-以”-“结尾：lab-glasscom-com-dir"><a href="#a-以”-“结尾：lab-glasscom-com-dir" class="headerlink" title="(a) 以”&#x2F;“结尾：lab.glasscom.com/dir/"></a>(a) 以”&#x2F;“结尾：<code>lab.glasscom.com/dir/</code></h4><p>以”&#x2F;dir&#x2F;“结尾代表&#x2F;dir&#x2F;后面本应该有的文件名被省略了。<br>我们会在服务器上事先设置好文件名省略时要访问的默认文件名，大多情况下是index.html或者default.htm。因此，像前面这样省略文件名时，服务器就会访问其中的默认文件。</p>
+<h4 id="b-域名-”-“：lab-glasscom-com"><a href="#b-域名-”-“：lab-glasscom-com" class="headerlink" title="(b) 域名+”&#x2F;“：lab.glasscom.com/"></a>(b) 域名+”&#x2F;“：<code>lab.glasscom.com/</code></h4><p>以”域名+&#x2F;“结尾表示访问一个名叫”&#x2F;“的目录（根目录）；<br>由于省略了文件名，会访问&#x2F;index.html之类的文件。</p>
+<h4 id="c-域名：lab-glasscom-com"><a href="#c-域名：lab-glasscom-com" class="headerlink" title="(c) 域名：lab.glasscom.com"></a>(c) 域名：<code>lab.glasscom.com</code></h4><p>以域名结尾时，就代表访问根目录下事先设置的默认文件，也就是&#x2F;index.html之类的文件。</p>
+<h4 id="d-路径结尾无”-“：lab-glasscom-com-whatisthis"><a href="#d-路径结尾无”-“：lab-glasscom-com-whatisthis" class="headerlink" title="(d) 路径结尾无”&#x2F;“：lab.glasscom.com/whatisthis"></a>(d) 路径结尾无”&#x2F;“：<code>lab.glasscom.com/whatisthis</code></h4><p><strong>先文件，后目录。</strong><br>如果Web服务器上存在名为whatisthis的文件，则将whatisthis作为文件名来处理；<br>如果存在名为whatisthis的目录，则将whatisthis作为目录名来处理。</p>
+<h3 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h3><ul>
+<li>URL：Uniform Resource Locator，统一资源定位符。</li>
+<li>FTP：File Transfer Protocol，文件传送协议。是在上传、下载文件时使用的协议（也指使用FTP协议传送文件的程序）。</li>
+<li>HTTP：Hypertext Transfer Protocol，超文本传送协议。</li>
+<li>根目录：”&#x2F;“目录 表示最顶层的目录 “根目录”。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机网络 - url</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+        <tag>计算机网络</tag>
+        <tag>url</tag>
+      </tags>
+  </entry>
 </search>
