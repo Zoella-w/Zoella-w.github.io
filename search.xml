@@ -883,7 +883,7 @@
       </tags>
   </entry>
   <entry>
-    <title>24-浏览器缓存与304状态码</title>
+    <title>浏览器缓存与304状态码</title>
     <url>/2024/10/16/24-%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E4%B8%8E304%E7%8A%B6%E6%80%81%E7%A0%81/</url>
     <content><![CDATA[<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>出现304状态码的条件</p>
 <ul>
@@ -898,26 +898,26 @@
                      data-src="/../images/24/1.png"
                       alt="图1"
                 ></p>
-<h1 id="一、详细讨论"><a href="#一、详细讨论" class="headerlink" title="一、详细讨论"></a>一、详细讨论</h1><h2 id="1、是否禁止缓存"><a href="#1、是否禁止缓存" class="headerlink" title="1、是否禁止缓存"></a>1、是否禁止缓存</h2><p><strong>禁止缓存</strong>：缓存中不得存储任何关于客户端请求和服务端响应的内容，客户端每次发起的请求都会下载完整的响应内容</p>
+<h2 id="一、详细讨论"><a href="#一、详细讨论" class="headerlink" title="一、详细讨论"></a>一、详细讨论</h2><h3 id="1、是否禁止缓存"><a href="#1、是否禁止缓存" class="headerlink" title="1、是否禁止缓存"></a>1、是否禁止缓存</h3><p><strong>禁止缓存</strong>：缓存中不得存储任何关于客户端请求和服务端响应的内容，客户端每次发起的请求都会下载完整的响应内容</p>
 <p>在请求头中，<code>Cache-Control: no-store</code> 与 <code>Pragma: no-cache</code> 都可以禁止缓存</p>
 <p><strong>区别</strong>：<code>Pragma: no-cache</code> 可用于 <code>http 1.0</code> 和 <code>http 1.1</code>，而 <code>Cache-Control: no-store</code> 只能用于 <code>http 1.1</code></p>
-<h2 id="2、是否检查本地副本是否过期"><a href="#2、是否检查本地副本是否过期" class="headerlink" title="2、是否检查本地副本是否过期"></a>2、是否检查本地副本是否过期</h2><p>由 <code>Cache-Contro</code> 的 <code>no-cache</code> 和 <code>must-revalidate</code> 两个可选值控制</p>
+<h3 id="2、是否检查本地副本是否过期"><a href="#2、是否检查本地副本是否过期" class="headerlink" title="2、是否检查本地副本是否过期"></a>2、是否检查本地副本是否过期</h3><p>由 <code>Cache-Contro</code> 的 <code>no-cache</code> 和 <code>must-revalidate</code> 两个可选值控制</p>
 <ul>
 <li><code>no-cache</code>：告诉浏览器、缓存服务器，不管本地副本是否过期，<strong>使用资源副本前，必须到源服务器进行副本有效性校验</strong></li>
 <li><code>must-revalidate</code>：告诉浏览器、缓存服务器，<strong>本地副本过期前，可使用本地副本</strong>；本地副本一旦过期，必须去源服务器进行有效性校验</li>
 </ul>
-<h2 id="3、缓存时长（判断本地副本是否过期）"><a href="#3、缓存时长（判断本地副本是否过期）" class="headerlink" title="3、缓存时长（判断本地副本是否过期）"></a>3、缓存时长（判断本地副本是否过期）</h2><p>与「缓存的过期机制」相关的响应头字段（优先级依次降低）：</p>
-<h3 id="（1）max-age"><a href="#（1）max-age" class="headerlink" title="（1）max-age=&lt;seconds&gt;"></a>（1）<code>max-age=&lt;seconds&gt;</code></h3><p>表示资源能被缓存的最大时间，通常和 <code>must-revalidate</code> 一起使用：</p>
+<h3 id="3、检查本地副本是否过期"><a href="#3、检查本地副本是否过期" class="headerlink" title="3、检查本地副本是否过期"></a>3、检查本地副本是否过期</h3><p>与「缓存的过期机制」相关的响应头字段（优先级依次降低）：</p>
+<h4 id="（1）max-age"><a href="#（1）max-age" class="headerlink" title="（1）max-age=&lt;seconds&gt;"></a>（1）<code>max-age=&lt;seconds&gt;</code></h4><p>表示资源能被缓存的最大时间，通常和 <code>must-revalidate</code> 一起使用：</p>
 <div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 表示 本地副本过期前，可使用本地副本，缓存时间为60秒</span></span><br><span class="line">Cache-Control<span class="punctuation">:</span> max-age=<span class="number">60</span><span class="punctuation">,</span> must-revalidate</span><br></pre></td></tr></table></figure></div>
 
-<h3 id="（2）Expires"><a href="#（2）Expires" class="headerlink" title="（2）Expires"></a>（2）<code>Expires</code></h3><p>表示资源的过期时间。<br>如果无<code>max-age</code>但有<code>Expires</code>，通过比较<code>Expires</code>和<code>Date</code>的值来判断是否缓存有效：</p>
+<h4 id="（2）Expires"><a href="#（2）Expires" class="headerlink" title="（2）Expires"></a>（2）<code>Expires</code></h4><p>表示资源的过期时间。<br>如果无<code>max-age</code>但有<code>Expires</code>，通过比较<code>Expires</code>和<code>Date</code>的值来判断是否缓存有效：</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/../images/24/2.png"
                       alt="图2"
                 ></p>
-<h3 id="（3）Last-Modified"><a href="#（3）Last-Modified" class="headerlink" title="（3）Last-Modified"></a>（3）<code>Last-Modified</code></h3><p>表示资源的最后修改时间。<br>如果无<code>max-age</code>和<code>expires</code>但有<code>Last-Modified</code>，缓存的时长等于<code>(Date-Last-Modified)/10</code></p>
+<h4 id="（3）Last-Modified"><a href="#（3）Last-Modified" class="headerlink" title="（3）Last-Modified"></a>（3）<code>Last-Modified</code></h4><p>表示资源的最后修改时间。<br>如果无<code>max-age</code>和<code>expires</code>但有<code>Last-Modified</code>，缓存的时长等于<code>(Date-Last-Modified)/10</code></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -925,15 +925,15 @@
                       alt="图3"
                 ></p>
 <p><strong>如果都没有，浏览器将不会对该需求进行缓存。</strong></p>
-<h2 id="4、如果本地副本没有过期"><a href="#4、如果本地副本没有过期" class="headerlink" title="4、如果本地副本没有过期"></a>4、如果本地副本没有过期</h2><p>直接从缓存中读取资源，并返回200状态码。</p>
+<h3 id="4、本地副本没过期"><a href="#4、本地副本没过期" class="headerlink" title="4、本地副本没过期"></a>4、本地副本没过期</h3><p>直接从缓存中读取资源，并返回200状态码。</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/../images/24/4.png"
                       alt="图4"
                 ></p>
-<h2 id="5、如果本地副本过期"><a href="#5、如果本地副本过期" class="headerlink" title="5、如果本地副本过期"></a>5、如果本地副本过期</h2><p>进行「源服务器进行有效性校验」的前期准备。</p>
-<h3 id="（1）If-None-Match"><a href="#（1）If-None-Match" class="headerlink" title="（1）If-None-Match"></a>（1）If-None-Match</h3><p>首先，在请求头里寻找<code>If-None-Match</code>字段（其值为服务器上次返回的<code>ETag</code>响应头的值）</p>
+<h3 id="5、本地副本已过期"><a href="#5、本地副本已过期" class="headerlink" title="5、本地副本已过期"></a>5、本地副本已过期</h3><p>进行「源服务器进行有效性校验」的前期准备。</p>
+<h4 id="（1）If-None-Match"><a href="#（1）If-None-Match" class="headerlink" title="（1）If-None-Match"></a>（1）If-None-Match</h4><p>首先，在请求头里寻找<code>If-None-Match</code>字段（其值为服务器上次返回的<code>ETag</code>响应头的值）</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -945,7 +945,7 @@
                      data-src="/../images/24/6.png"
                       alt="图6"
                 ></p>
-<h3 id="（2）If-Modified-Since"><a href="#（2）If-Modified-Since" class="headerlink" title="（2）If-Modified-Since"></a>（2）If-Modified-Since</h3><p>如果没有<code>If-None-Match</code>，则在请求头中寻找<code>If-Modified-Since</code>字段（其值为服务器上次返回的<code>Last-Modified</code>响应头中的日期值）</p>
+<h4 id="（2）If-Modified-Since"><a href="#（2）If-Modified-Since" class="headerlink" title="（2）If-Modified-Since"></a>（2）If-Modified-Since</h4><p>如果没有<code>If-None-Match</code>，则在请求头中寻找<code>If-Modified-Since</code>字段（其值为服务器上次返回的<code>Last-Modified</code>响应头中的日期值）</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -957,26 +957,26 @@
                      data-src="/../images/24/8.png"
                       alt="图8"
                 ></p>
-<h3 id="（3）都没有"><a href="#（3）都没有" class="headerlink" title="（3）都没有"></a>（3）都没有</h3><p>如果<code>If-None-Match</code>与<code>If-Modified-Since</code>都没有，则直接向服务器请求数据</p>
-<h2 id="6、到源服务器进行有效性校验"><a href="#6、到源服务器进行有效性校验" class="headerlink" title="6、到源服务器进行有效性校验"></a>6、到源服务器进行有效性校验</h2><p>如果请求头中有<code>If-None-Match</code>或<code>If-Modified-Since</code>，则到源服务器进行有效性校验。<br>如果源服务器资源没有变化，则会返回304；如果有变化，则返回200。</p>
-<h2 id="7、上述的一些流程还可以用下图来表示"><a href="#7、上述的一些流程还可以用下图来表示" class="headerlink" title="7、上述的一些流程还可以用下图来表示"></a>7、上述的一些流程还可以用下图来表示</h2><p><img  
+<h4 id="（3）都没有"><a href="#（3）都没有" class="headerlink" title="（3）都没有"></a>（3）都没有</h4><p>如果<code>If-None-Match</code>与<code>If-Modified-Since</code>都没有，则直接向服务器请求数据</p>
+<h3 id="6、去源服务器进行有效性校验"><a href="#6、去源服务器进行有效性校验" class="headerlink" title="6、去源服务器进行有效性校验"></a>6、去源服务器进行有效性校验</h3><p>如果请求头中有<code>If-None-Match</code>或<code>If-Modified-Since</code>，则到源服务器进行有效性校验。<br>如果源服务器资源没有变化，则会返回304；如果有变化，则返回200。</p>
+<h3 id="7、上述流程的总结图"><a href="#7、上述流程的总结图" class="headerlink" title="7、上述流程的总结图"></a>7、上述流程的总结图</h3><p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/../images/24/9.png"
                       alt="图9"
                 ></p>
-<h1 id="二、补充"><a href="#二、补充" class="headerlink" title="二、补充"></a>二、补充</h1><h2 id="私有缓存和公共缓存"><a href="#私有缓存和公共缓存" class="headerlink" title="私有缓存和公共缓存"></a>私有缓存和公共缓存</h2><p>在<code>Cache-Control</code>还有两个值：<code>private</code>与<code>public</code>：</p>
+<h2 id="二、补充"><a href="#二、补充" class="headerlink" title="二、补充"></a>二、补充</h2><h3 id="私有缓存和公共缓存"><a href="#私有缓存和公共缓存" class="headerlink" title="私有缓存和公共缓存"></a>私有缓存和公共缓存</h3><p>在<code>Cache-Control</code>还有两个值：<code>private</code>与<code>public</code>：</p>
 <ul>
 <li>public 表示该响应可被任何中间人（比如中间代理、CDN等）缓存。</li>
 <li>private 表示该响应是专用于某单个用户的，不能被中间人缓存，应用于浏览器的私有缓存中（比如：带有HTTP验证信息（帐号密码）的页面 或 某些特定影响状态码的页面*）。</li>
 </ul>
 <p>“某些特定影响状态码的页面”指具有特殊语义的状态码，比如：</p>
-<h4 id="（1）401-Unauthorized"><a href="#（1）401-Unauthorized" class="headerlink" title="（1）401 Unauthorized"></a>（1）401 Unauthorized</h4><p>当访问受保护的资源时，如果用户未通过身份验证，服务器可能返回401状态码。此时通常只应允许客户端（即用户的浏览器）缓存该响应，因为该内容对于其他用户是不适用的。<br>403 Forbidden：</p>
+<h5 id="（1）401-Unauthorized"><a href="#（1）401-Unauthorized" class="headerlink" title="（1）401 Unauthorized"></a>（1）401 Unauthorized</h5><p>当访问受保护的资源时，如果用户未通过身份验证，服务器可能返回401状态码。此时通常只应允许客户端（即用户的浏览器）缓存该响应，因为该内容对于其他用户是不适用的。<br>403 Forbidden：</p>
 <p>这个状态码表示服务器理解请求但拒绝执行它。在某些情况下，即使是公共内容，也可能出于安全考虑而不被中间缓存，因此可以标记为 private。</p>
-<h4 id="（2）404-Not-Found"><a href="#（2）404-Not-Found" class="headerlink" title="（2）404 Not Found"></a>（2）404 Not Found</h4><p>如果某个资源不存在，虽然它是公开的，但可能在某些应用场景下不希望被中间缓存。这通常取决于具体的业务逻辑和需求。</p>
-<h4 id="（3）500-Internal-Server-Error"><a href="#（3）500-Internal-Server-Error" class="headerlink" title="（3）500 Internal Server Error"></a>（3）500 Internal Server Error</h4><p>这种错误通常表示服务器出现了问题，返回的内容可能不稳定，因此不应被中间缓存。类似地，可以通过设置 Cache-Control: private 来确保只有用户的浏览器缓存。</p>
-<h3 id="private-使用场景"><a href="#private-使用场景" class="headerlink" title="private 使用场景"></a>private 使用场景</h3><h4 id="（1）用户特定数据"><a href="#（1）用户特定数据" class="headerlink" title="（1）用户特定数据"></a>（1）用户特定数据</h4><p>如个性化推荐、用户历史记录等，仅对特定用户合适，其他用户无法访问，即便返回成功状态（200 OK），为了保护用户隐私，建议使用 private。</p>
-<h4 id="（2）临时性数据"><a href="#（2）临时性数据" class="headerlink" title="（2）临时性数据"></a>（2）临时性数据</h4><p>如操作结果、表单提交后给予反馈的信息等，这类信息通常只需当前用户知道，对其他用户无意义，适合标记为 private。</p>
+<h5 id="（2）404-Not-Found"><a href="#（2）404-Not-Found" class="headerlink" title="（2）404 Not Found"></a>（2）404 Not Found</h5><p>如果某个资源不存在，虽然它是公开的，但可能在某些应用场景下不希望被中间缓存。这通常取决于具体的业务逻辑和需求。</p>
+<h5 id="（3）500-Internal-Server-Error"><a href="#（3）500-Internal-Server-Error" class="headerlink" title="（3）500 Internal Server Error"></a>（3）500 Internal Server Error</h5><p>这种错误通常表示服务器出现了问题，返回的内容可能不稳定，因此不应被中间缓存。类似地，可以通过设置 Cache-Control: private 来确保只有用户的浏览器缓存。</p>
+<h4 id="private-使用场景"><a href="#private-使用场景" class="headerlink" title="private 使用场景"></a>private 使用场景</h4><h5 id="（1）用户特定数据"><a href="#（1）用户特定数据" class="headerlink" title="（1）用户特定数据"></a>（1）用户特定数据</h5><p>如个性化推荐、用户历史记录等，仅对特定用户合适，其他用户无法访问，即便返回成功状态（200 OK），为了保护用户隐私，建议使用 private。</p>
+<h5 id="（2）临时性数据"><a href="#（2）临时性数据" class="headerlink" title="（2）临时性数据"></a>（2）临时性数据</h5><p>如操作结果、表单提交后给予反馈的信息等，这类信息通常只需当前用户知道，对其他用户无意义，适合标记为 private。</p>
 ]]></content>
       <categories>
         <category>计算机网络 - 状态码</category>
