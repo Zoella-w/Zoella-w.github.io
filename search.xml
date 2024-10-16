@@ -782,19 +782,19 @@
 <p>图1.1：URL的各种格式<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/22/1.webp"
+                     data-src="https://pica.zhimg.com/80/v2-e72ee2cb036bb9fa21e2817228a43e42_1440w.webp?source=2c26e567"
                       alt="图1.1"
                 ></p>
 <h2 id="2-URL的组成元素"><a href="#2-URL的组成元素" class="headerlink" title="2. URL的组成元素"></a>2. URL的组成元素</h2><p>图1.2：Web浏览器解析url的过程<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/22/2.webp"
+                     data-src="https://picx.zhimg.com/80/v2-42f11c5b60c90af055cc232d71d15fd0_1440w.webp?source=2c26e567"
                       alt="图1.2"
                 ></p>
 <p>图1.3：路径名为&#x2F;dir&#x2F;file1.html的文件<br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/22/3.webp"
+                     data-src="https://pic1.zhimg.com/80/v2-204e5983725b0bf4ea61bef9c66d8d99_1440w.webp?source=2c26e567"
                       alt="图1.3"
                 ></p>
 <h2 id="3-省略文件名的情况"><a href="#3-省略文件名的情况" class="headerlink" title="3. 省略文件名的情况"></a>3. 省略文件名的情况</h2><h4 id="a-以”-“结尾：lab-glasscom-com-dir"><a href="#a-以”-“结尾：lab-glasscom-com-dir" class="headerlink" title="(a) 以”&#x2F;“结尾：lab.glasscom.com/dir/"></a>(a) 以”&#x2F;“结尾：<code>lab.glasscom.com/dir/</code></h4><p>以”&#x2F;dir&#x2F;“结尾代表&#x2F;dir&#x2F;后面本应该有的文件名被省略了。<br>我们会在服务器上事先设置好文件名省略时要访问的默认文件名，大多情况下是index.html或者default.htm。因此，像前面这样省略文件名时，服务器就会访问其中的默认文件。</p>
@@ -895,7 +895,7 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/1.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/22/15fe1d6fc1269a86~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图1"
                 ></p>
 <h2 id="一、详细讨论"><a href="#一、详细讨论" class="headerlink" title="一、详细讨论"></a>一、详细讨论</h2><h3 id="1、是否禁止缓存"><a href="#1、是否禁止缓存" class="headerlink" title="1、是否禁止缓存"></a>1、是否禁止缓存</h3><p><strong>禁止缓存</strong>：缓存中不得存储任何关于客户端请求和服务端响应的内容，客户端每次发起的请求都会下载完整的响应内容</p>
@@ -914,14 +914,14 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/2.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec71a24236~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图2"
                 ></p>
 <h4 id="（3）Last-Modified"><a href="#（3）Last-Modified" class="headerlink" title="（3）Last-Modified"></a>（3）<code>Last-Modified</code></h4><p>表示资源的最后修改时间。<br>如果无<code>max-age</code>和<code>expires</code>但有<code>Last-Modified</code>，缓存的时长等于<code>(Date-Last-Modified)/10</code></p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/3.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec6d61c11a~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图3"
                 ></p>
 <p><strong>如果都没有，浏览器将不会对该需求进行缓存。</strong></p>
@@ -929,7 +929,7 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/4.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec7215656e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图4"
                 ></p>
 <h3 id="5、本地副本已过期"><a href="#5、本地副本已过期" class="headerlink" title="5、本地副本已过期"></a>5、本地副本已过期</h3><p>进行「源服务器进行有效性校验」的前期准备。</p>
@@ -937,24 +937,24 @@
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/5.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec71ddeec1~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图5"
                 ><br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/6.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec89fb1991~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图6"
                 ></p>
 <h4 id="（2）If-Modified-Since"><a href="#（2）If-Modified-Since" class="headerlink" title="（2）If-Modified-Since"></a>（2）If-Modified-Since</h4><p>如果没有<code>If-None-Match</code>，则在请求头中寻找<code>If-Modified-Since</code>字段（其值为服务器上次返回的<code>Last-Modified</code>响应头中的日期值）</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/7.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec8a29d072~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图7"
                 ><br><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/8.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eed35bf1c0e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图8"
                 ></p>
 <h4 id="（3）都没有"><a href="#（3）都没有" class="headerlink" title="（3）都没有"></a>（3）都没有</h4><p>如果<code>If-None-Match</code>与<code>If-Modified-Since</code>都没有，则直接向服务器请求数据</p>
@@ -962,7 +962,7 @@
 <h3 id="7、上述流程的总结图"><a href="#7、上述流程的总结图" class="headerlink" title="7、上述流程的总结图"></a>7、上述流程的总结图</h3><p><img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="/../images/24/9.png"
+                     data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eed5984fb4b~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图9"
                 ></p>
 <h2 id="二、补充"><a href="#二、补充" class="headerlink" title="二、补充"></a>二、补充</h2><h3 id="私有缓存和公共缓存"><a href="#私有缓存和公共缓存" class="headerlink" title="私有缓存和公共缓存"></a>私有缓存和公共缓存</h3><p>在<code>Cache-Control</code>还有两个值：<code>private</code>与<code>public</code>：</p>
