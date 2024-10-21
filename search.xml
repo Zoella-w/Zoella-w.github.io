@@ -889,26 +889,60 @@
 <ul>
 <li>不禁止缓存</li>
 <li>不检查本地缓存是否过期；或者检查本地缓存、且未过期</li>
-<li>有Etag，请求头中有If-None-Match；或者有Last-Modified，请求头中有If-Modified-since</li>
+<li>响应头有<code>Etag</code>（则下次的请求头中有<code>If-None-Match</code>）；或者响应头有<code>Last-Modified</code>（则下次的请求头中有<code>If-Modified-since</code>）</li>
 <li>缓存有效</li>
 </ul>
+<p>注意：下图中的<code>Etag</code>和<code>Last-Modified</code>之间不存在先后顺序</p>
 <p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/11/22/15fe1d6fc1269a86~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图1"
                 ></p>
-<h2 id="一、详细讨论"><a href="#一、详细讨论" class="headerlink" title="一、详细讨论"></a>一、详细讨论</h2><h3 id="1、是否禁止缓存"><a href="#1、是否禁止缓存" class="headerlink" title="1、是否禁止缓存"></a>1、是否禁止缓存</h3><p><strong>禁止缓存</strong>：缓存中不得存储任何关于客户端请求和服务端响应的内容，客户端每次发起的请求都会下载完整的响应内容</p>
+<h2 id="一、304请求的交互过程"><a href="#一、304请求的交互过程" class="headerlink" title="一、304请求的交互过程"></a>一、304请求的交互过程</h2><p>假设用户通过浏览器访问某静态资源（比如图片image.png），且该资源之前已被浏览器缓存，现在分析两次请求的交互过程。</p>
+<h3 id="第一次请求（初始加载）"><a href="#第一次请求（初始加载）" class="headerlink" title="第一次请求（初始加载）"></a>第一次请求（初始加载）</h3><h4 id="1、浏览器发送请求"><a href="#1、浏览器发送请求" class="headerlink" title="1、浏览器发送请求"></a>1、浏览器发送请求</h4><p>用户在浏览器中输入 URL，浏览器向服务器发送 GET 请求，获取 image.png。<br>请求头可能如下：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/image.png</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>example.com</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 ...</span><br><span class="line"><span class="attribute">Accept</span><span class="punctuation">: </span>image/webp,image/apng,image/*,*/*;q=0.8</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2、服务器响应"><a href="#2、服务器响应" class="headerlink" title="2、服务器响应"></a>2、服务器响应</h4><p>服务器处理请求，并返回 200 OK 响应，同时附带以下响应头：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>image/png</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>123456</span><br><span class="line"><span class="attribute">Last-Modified</span><span class="punctuation">: </span>Mon, 01 Jan 2023 12:00:00 GMT</span><br><span class="line"><span class="attribute">ETag</span><span class="punctuation">: </span>&quot;abc123&quot;</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=31536000</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>Last-Modified</code>：表示资源最后修改的时间</li>
+<li><code>ETag</code>：资源的唯一标识符</li>
+<li><code>Cache-Control</code>：指示浏览器可以缓存该资源的时长</li>
+</ul>
+<h4 id="3、浏览器缓存资源"><a href="#3、浏览器缓存资源" class="headerlink" title="3、浏览器缓存资源"></a>3、浏览器缓存资源</h4><p>浏览器接收响应后，将image.png缓存到本地，并根据响应头信息（如<code>Last-Modified</code>和<code>ETag</code>）记录该资源的状态</p>
+<h3 id="第二次请求（缓存验证）"><a href="#第二次请求（缓存验证）" class="headerlink" title="第二次请求（缓存验证）"></a>第二次请求（缓存验证）</h3><h4 id="1、浏览器发送条件请求"><a href="#1、浏览器发送条件请求" class="headerlink" title="1、浏览器发送条件请求"></a>1、浏览器发送条件请求</h4><p>当用户再次访问同一资源，浏览器会检查缓存，如果该资源仍然有效，就发送一个带条件的 GET 请求到服务器，请求头如下：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/image.png</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>example.com</span><br><span class="line"><span class="attribute">If-Modified-Since</span><span class="punctuation">: </span>Mon, 01 Jan 2023 12:00:00 GMT</span><br><span class="line"><span class="attribute">If-None-Match</span><span class="punctuation">: </span>&quot;abc123&quot;</span><br><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>Mozilla/5.0 ...</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><code>If-Modified-Since</code>：告诉服务器，如果在指定日期之后资源被修改，则返回新的资源</li>
+<li><code>If-None-Match</code>：告诉服务器，如果资源的<code>ETag</code>与提供的值不匹配，则返回新的资源</li>
+</ul>
+<h4 id="2、服务器处理请求"><a href="#2、服务器处理请求" class="headerlink" title="2、服务器处理请求"></a>2、服务器处理请求</h4><p>服务器接收到条件请求后，检查该资源的状态：<br>如果资源自<code>Last-Modified</code>时间以来未被修改，且<code>ETag</code>匹配，那么服务器不会返回新的内容，而是返回 304 Not Modified。</p>
+<p>服务器返回如下响应：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">304</span> Not Modified</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Mon, 02 Jan 2023 12:00:00 GMT</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>注意：304 响应没有消息体，通常只包含必要的状态码和一些响应头。</strong></p>
+<h4 id="3、浏览器处理304响应"><a href="#3、浏览器处理304响应" class="headerlink" title="3、浏览器处理304响应"></a>3、浏览器处理304响应</h4><p>当浏览器接收到 304 Not Modified 响应时，了解到之前缓存的 image.png 仍然有效，因此直接使用缓存中的版本，而无需重新下载。</p>
+<h2 id="二、详细讨论"><a href="#二、详细讨论" class="headerlink" title="二、详细讨论"></a>二、详细讨论</h2><h3 id="1、是否禁止缓存"><a href="#1、是否禁止缓存" class="headerlink" title="1、是否禁止缓存"></a>1、是否禁止缓存</h3><p><strong>禁止缓存</strong>：缓存中不得存储任何关于客户端请求和服务端响应的内容，客户端每次发起的请求都会下载完整的响应内容</p>
 <p>在请求头中，<code>Cache-Control: no-store</code> 与 <code>Pragma: no-cache</code> 都可以禁止缓存</p>
-<p><strong>区别</strong>：<code>Pragma: no-cache</code> 可用于 <code>http 1.0</code> 和 <code>http 1.1</code>，而 <code>Cache-Control: no-store</code> 只能用于 <code>http 1.1</code></p>
-<h3 id="2、是否检查本地副本是否过期"><a href="#2、是否检查本地副本是否过期" class="headerlink" title="2、是否检查本地副本是否过期"></a>2、是否检查本地副本是否过期</h3><p>由 <code>Cache-Contro</code> 的 <code>no-cache</code> 和 <code>must-revalidate</code> 两个可选值控制</p>
+<ul>
+<li><code>Pragma: no-cache</code> 可用于 <code>http 1.0</code> 和 <code>http 1.1</code></li>
+<li><code>Cache-Control: no-store</code> 只能用于 <code>http 1.1</code></li>
+</ul>
+<h3 id="2、是否检查本地副本是否过期"><a href="#2、是否检查本地副本是否过期" class="headerlink" title="2、是否检查本地副本是否过期"></a>2、是否检查本地副本是否过期</h3><p>由 <code>Cache-Control</code> 的 <code>no-cache</code> 和 <code>must-revalidate</code> 两个可选值控制</p>
 <ul>
 <li><code>no-cache</code>：告诉浏览器、缓存服务器，不管本地副本是否过期，<strong>使用资源副本前，必须到源服务器进行副本有效性校验</strong></li>
-<li><code>must-revalidate</code>：告诉浏览器、缓存服务器，<strong>本地副本过期前，可使用本地副本</strong>；本地副本一旦过期，必须去源服务器进行有效性校验</li>
+<li><code>must-revalidate</code>：告诉浏览器、缓存服务器，<strong>本地副本过期前，可使用本地副本</strong>；本地副本一旦过期，必须去源服务器进行有效性校验（如果没有该属性，若发生网络问题等情况，客户端可能直接使用本地缓存，而不会向服务器发起校验）</li>
 </ul>
 <h3 id="3、检查本地副本是否过期"><a href="#3、检查本地副本是否过期" class="headerlink" title="3、检查本地副本是否过期"></a>3、检查本地副本是否过期</h3><p>与「缓存的过期机制」相关的响应头字段（优先级依次降低）：</p>
-<h4 id="（1）max-age"><a href="#（1）max-age" class="headerlink" title="（1）max-age=&lt;seconds&gt;"></a>（1）<code>max-age=&lt;seconds&gt;</code></h4><p>表示资源能被缓存的最大时间，通常和 <code>must-revalidate</code> 一起使用：</p>
-<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 表示 本地副本过期前，可使用本地副本，缓存时间为60秒</span></span><br><span class="line">Cache-Control<span class="punctuation">:</span> max-age=<span class="number">60</span><span class="punctuation">,</span> must-revalidate</span><br></pre></td></tr></table></figure></div>
+<h4 id="（1）max-age"><a href="#（1）max-age" class="headerlink" title="（1）max-age=&lt;seconds&gt;"></a>（1）<code>max-age=&lt;seconds&gt;</code></h4><p>表示资源能被缓存的最大时间，通常和 <code>must-revalidate</code> 一起使用。</p>
+<p>本地副本过期前，可使用本地副本，缓存时间为60秒；<br>如果本地副本已过期，则重新向服务器请求（要求必须进行有效性校验）：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=60, must-revalidate</span><br></pre></td></tr></table></figure></div>
+
+<p>共享缓存（如代理服务器）将在60秒后失效，而个人用户的缓存则在120秒后失效：</p>
+<div class="highlight-container" data-rel="Http"><figure class="iseeu highlight http"><table><tr><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=120, smax-age=60</span><br></pre></td></tr></table></figure></div>
 
 <h4 id="（2）Expires"><a href="#（2）Expires" class="headerlink" title="（2）Expires"></a>（2）<code>Expires</code></h4><p>表示资源的过期时间。<br>如果无<code>max-age</code>但有<code>Expires</code>，通过比较<code>Expires</code>和<code>Date</code>的值来判断是否缓存有效：</p>
 <p><img  
@@ -917,7 +951,9 @@
                      data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec71a24236~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图2"
                 ></p>
-<h4 id="（3）Last-Modified"><a href="#（3）Last-Modified" class="headerlink" title="（3）Last-Modified"></a>（3）<code>Last-Modified</code></h4><p>表示资源的最后修改时间。<br>如果无<code>max-age</code>和<code>expires</code>但有<code>Last-Modified</code>，缓存的时长等于<code>(Date-Last-Modified)/10</code></p>
+<h4 id="（3）Last-Modified"><a href="#（3）Last-Modified" class="headerlink" title="（3）Last-Modified"></a>（3）<code>Last-Modified</code></h4><p>表示资源的最后修改时间。<br>如果无<code>max-age</code>和<code>expires</code>但有<code>Last-Modified</code>，缓存的时长等于</p>
+<div class="highlight-container" data-rel="Json"><figure class="iseeu highlight json"><table><tr><td class="code"><pre><span class="line">(Date - Last-Modified) / <span class="number">10</span></span><br></pre></td></tr></table></figure></div>
+
 <p><img  
                      lazyload
                      src="/images/loading.svg"
@@ -932,7 +968,7 @@
                      data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eec7215656e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图4"
                 ></p>
-<h3 id="5、本地副本已过期"><a href="#5、本地副本已过期" class="headerlink" title="5、本地副本已过期"></a>5、本地副本已过期</h3><p>进行「源服务器进行有效性校验」的前期准备。</p>
+<h3 id="5、本地副本已过期"><a href="#5、本地副本已过期" class="headerlink" title="5、本地副本已过期"></a>5、本地副本已过期</h3><p>进行「源服务器进行有效性校验」的前期准备：</p>
 <h4 id="（1）If-None-Match"><a href="#（1）If-None-Match" class="headerlink" title="（1）If-None-Match"></a>（1）If-None-Match</h4><p>首先，在请求头里寻找<code>If-None-Match</code>字段（其值为服务器上次返回的<code>ETag</code>响应头的值）</p>
 <p><img  
                      lazyload
@@ -957,25 +993,29 @@
                      data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eed35bf1c0e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图8"
                 ></p>
-<h4 id="（3）都没有"><a href="#（3）都没有" class="headerlink" title="（3）都没有"></a>（3）都没有</h4><p>如果<code>If-None-Match</code>与<code>If-Modified-Since</code>都没有，则直接向服务器请求数据</p>
-<h3 id="6、去源服务器进行有效性校验"><a href="#6、去源服务器进行有效性校验" class="headerlink" title="6、去源服务器进行有效性校验"></a>6、去源服务器进行有效性校验</h3><p>如果请求头中有<code>If-None-Match</code>或<code>If-Modified-Since</code>，则到源服务器进行有效性校验。<br>如果源服务器资源没有变化，则会返回304；如果有变化，则返回200。</p>
+<p>如果<code>If-None-Match</code>与<code>If-Modified-Since</code>都没有，则直接向服务器请求数据</p>
+<h3 id="6、去源服务器进行有效性校验"><a href="#6、去源服务器进行有效性校验" class="headerlink" title="6、去源服务器进行有效性校验"></a>6、去源服务器进行有效性校验</h3><p>如果请求头中有<code>If-None-Match</code>或<code>If-Modified-Since</code>，则到源服务器进行有效性校验。<br>如果源服务器资源没有变化，则返回304；如果有变化，则返回200。</p>
 <h3 id="7、上述流程的总结图"><a href="#7、上述流程的总结图" class="headerlink" title="7、上述流程的总结图"></a>7、上述流程的总结图</h3><p><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/8/24/16569eed5984fb4b~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png"
                       alt="图9"
                 ></p>
-<h2 id="二、补充"><a href="#二、补充" class="headerlink" title="二、补充"></a>二、补充</h2><h3 id="私有缓存和公共缓存"><a href="#私有缓存和公共缓存" class="headerlink" title="私有缓存和公共缓存"></a>私有缓存和公共缓存</h3><p>在<code>Cache-Control</code>还有两个值：<code>private</code>与<code>public</code>：</p>
+<h2 id="三、意义"><a href="#三、意义" class="headerlink" title="三、意义"></a>三、意义</h2><ul>
+<li><strong>避免了不必要的数据传输，提高了网络效率和用户体验</strong>；</li>
+<li><strong>在频繁访问相同资源的情况下，可以显著降低带宽消耗和服务器负载</strong>。</li>
+</ul>
+<h2 id="四、补充"><a href="#四、补充" class="headerlink" title="四、补充"></a>四、补充</h2><h3 id="私有缓存和公共缓存"><a href="#私有缓存和公共缓存" class="headerlink" title="私有缓存和公共缓存"></a>私有缓存和公共缓存</h3><p>在<code>Cache-Control</code>还有两个值：<code>private</code>与<code>public</code>：</p>
 <ul>
 <li>public 表示该响应可被任何中间人（比如中间代理、CDN等）缓存。</li>
-<li>private 表示该响应是专用于某单个用户的，不能被中间人缓存，应用于浏览器的私有缓存中（比如：带有HTTP验证信息（帐号密码）的页面 或 某些特定影响状态码的页面*）。</li>
+<li>private 表示该响应是专用于某单个用户的，不能被中间人缓存，应该用于浏览器的私有缓存中，比如：带有HTTP验证信息（帐号密码）的页面 或 某些特定影响状态码的页面*。</li>
 </ul>
 <p>“某些特定影响状态码的页面”指具有特殊语义的状态码，比如：</p>
-<h5 id="（1）401-Unauthorized"><a href="#（1）401-Unauthorized" class="headerlink" title="（1）401 Unauthorized"></a>（1）401 Unauthorized</h5><p>当访问受保护的资源时，如果用户未通过身份验证，服务器可能返回401状态码。此时通常只应允许客户端（即用户的浏览器）缓存该响应，因为该内容对于其他用户是不适用的。<br>403 Forbidden：</p>
-<p>这个状态码表示服务器理解请求但拒绝执行它。在某些情况下，即使是公共内容，也可能出于安全考虑而不被中间缓存，因此可以标记为 private。</p>
-<h5 id="（2）404-Not-Found"><a href="#（2）404-Not-Found" class="headerlink" title="（2）404 Not Found"></a>（2）404 Not Found</h5><p>如果某个资源不存在，虽然它是公开的，但可能在某些应用场景下不希望被中间缓存。这通常取决于具体的业务逻辑和需求。</p>
-<h5 id="（3）500-Internal-Server-Error"><a href="#（3）500-Internal-Server-Error" class="headerlink" title="（3）500 Internal Server Error"></a>（3）500 Internal Server Error</h5><p>这种错误通常表示服务器出现了问题，返回的内容可能不稳定，因此不应被中间缓存。类似地，可以通过设置 Cache-Control: private 来确保只有用户的浏览器缓存。</p>
-<h4 id="private-使用场景"><a href="#private-使用场景" class="headerlink" title="private 使用场景"></a>private 使用场景</h4><h5 id="（1）用户特定数据"><a href="#（1）用户特定数据" class="headerlink" title="（1）用户特定数据"></a>（1）用户特定数据</h5><p>如个性化推荐、用户历史记录等，仅对特定用户合适，其他用户无法访问，即便返回成功状态（200 OK），为了保护用户隐私，建议使用 private。</p>
+<h5 id="（1）401-Unauthorized"><a href="#（1）401-Unauthorized" class="headerlink" title="（1）401 Unauthorized"></a>（1）401 Unauthorized</h5><p>当访问受保护的资源时，如果用户未通过身份验证，服务器可能返回401状态码。<br>此时通常只应允许客户端缓存该响应，因为该内容对其他用户是不适用的。</p>
+<h4 id="（2）403-Forbidden"><a href="#（2）403-Forbidden" class="headerlink" title="（2）403 Forbidden"></a>（2）403 Forbidden</h4><p>表示服务器理解请求但拒绝执行它。<br>在某些情况下，公共内容也可能出于安全考虑而不被中间缓存，因此可标记为 private。</p>
+<h5 id="（2）404-Not-Found"><a href="#（2）404-Not-Found" class="headerlink" title="（2）404 Not Found"></a>（2）404 Not Found</h5><p>如果某资源不存在，虽然它是公开的，但可能在某些应用场景下不希望被中间缓存。</p>
+<h5 id="（3）500-Internal-Server-Error"><a href="#（3）500-Internal-Server-Error" class="headerlink" title="（3）500 Internal Server Error"></a>（3）500 Internal Server Error</h5><p>表示服务器出现了问题，返回的内容可能不稳定，因此不应被中间缓存。</p>
+<h4 id="private-使用场景"><a href="#private-使用场景" class="headerlink" title="private 使用场景"></a>private 使用场景</h4><h5 id="（1）用户特定数据"><a href="#（1）用户特定数据" class="headerlink" title="（1）用户特定数据"></a>（1）用户特定数据</h5><p>如个性化推荐、用户历史记录等，仅对特定用户合适，其他用户无法访问，即便返回成功状态，为了保护用户隐私，建议使用 private。</p>
 <h5 id="（2）临时性数据"><a href="#（2）临时性数据" class="headerlink" title="（2）临时性数据"></a>（2）临时性数据</h5><p>如操作结果、表单提交后给予反馈的信息等，这类信息通常只需当前用户知道，对其他用户无意义，适合标记为 private。</p>
 ]]></content>
       <categories>
@@ -988,6 +1028,77 @@
         <tag>url</tag>
         <tag>状态码</tag>
         <tag>浏览器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>25</title>
+    <url>/2024/10/18/25-DNS/</url>
+    <content><![CDATA[<h2 id="一、定义"><a href="#一、定义" class="headerlink" title="一、定义"></a>一、定义</h2><p>DNS 是：</p>
+<ul>
+<li>一个使得主机能够查询分布式数据库的<strong>应用层协议</strong></li>
+<li>一个由分层的 DNS 服务器实现的<strong>分布式数据库</strong></li>
+</ul>
+<p>（1）DNS 是一个分布式数据库，整个 DNS 系统由分散在世界各地的很多 DNS 服务器组成，每台服务器上都保存了一些数据，可以让我们最终查到主机名对应的 IP。</p>
+<p>（2）DNS 是一个应用层协议，发送一个包含所查询主机名的请求，它会返回该主机名对应的 IP。</p>
+<p><strong>分布式：</strong> 世界上没有一台 DNS 服务器拥有因特网上所有主机的映射，每台 DNS 只负责部分映射。</p>
+<h2 id="二、层次"><a href="#二、层次" class="headerlink" title="二、层次"></a>二、层次</h2><p>DNS 服务器有 3 种类型：</p>
+<ul>
+<li>根 DNS 服务器</li>
+<li>顶级域（Top-Level Domain, TLD）</li>
+<li>DNS 服务器</li>
+<li>权威 DNS 服务器</li>
+</ul>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img1.baidu.com/it/u=2736501838,3539264290&fm=253&fmt=auto&app=138&f=PNG?w=722&h=408"
+                      alt="图1"
+                ></p>
+<h3 id="1、根-DNS-服务器"><a href="#1、根-DNS-服务器" class="headerlink" title="1、根 DNS 服务器"></a>1、根 DNS 服务器</h3><p>比如 <code>www.baidu.com</code>，其完整写法是 <code>www.baidu.com.</code>，最后的这个 <code>.</code> 就是根域名。</p>
+<p>通过询问根 DNS 服务器，可以知道它的下一级，也就是顶级域 DNS 服务器的 IP 是多少，从而继续向顶级域 DNS 服务器发起查询请求。</p>
+<h3 id="2、顶级域-DNS-服务器"><a href="#2、顶级域-DNS-服务器" class="headerlink" title="2、顶级域 DNS 服务器"></a>2、顶级域 DNS 服务器</h3><p>除了前面提到的 <code>com</code> 是顶级域名，常见的顶级域名还有 <code>cn</code>、<code>org</code>、<code>edu</code> 等。顶级域 DNS 服务器，也就是 TLD，提供了它的下一级，也就是权威 DNS 服务器的 IP 地址。</p>
+<h3 id="3、权威-DNS-服务器"><a href="#3、权威-DNS-服务器" class="headerlink" title="3、权威 DNS 服务器"></a>3、权威 DNS 服务器</h3><p>权威 DNS 服务器可以返回主机和IP之间的最终映射。</p>
+<h2 id="三、本地-DNS-服务器"><a href="#三、本地-DNS-服务器" class="headerlink" title="三、本地 DNS 服务器"></a>三、本地 DNS 服务器</h2><p>每个 ISP（Internet Server Provider, 网络服务提供商）都有一台本地 DNS 服务器，比如一个居民区的 ISP、一个大学的 ISP、一个机构的 ISP，都有一台或多台本地 DNS 服务器。</p>
+<p>当主机发出 DNS 请求时，该请求被发往本地 DNS 服务器，<strong>本地 DNS 服务器起着代理的作用，并负责将该请求转发到 DNS 服务器层次结构中。</strong></p>
+<p>严格来说，本地 DNS 服务器不属于 DNS 的层次结构。</p>
+<h2 id="四、递归查询、迭代查询"><a href="#四、递归查询、迭代查询" class="headerlink" title="四、递归查询、迭代查询"></a>四、递归查询、迭代查询</h2><p>如下图，假设主机 m.n.com 想要获取主机 a.b.com 的 IP 地址，会经过以下几个步骤：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6bb796a3045e409aabb0f89ad40d3fad~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp"
+                      alt="图2"
+                ></p>
+<p>（1）首先，主机 m.n.com 向它的本地 DNS 服务器发送一个 DNS 查询报文，包含期待被转换的主机名 a.b.com；</p>
+<p>（2）本地 DNS 服务器将该报文转发到根 DNS 服务器；</p>
+<p>（3）该根 DNS 服务器注意到 com 前缀，向本地 DNS 服务器返回 com 对应的顶级域 DNS 服务器（TLD）的 IP 地址列表。</p>
+<p>（4）本地 DNS 服务器则向其中一台 TLD 服务器发送查询报文；</p>
+<p>（5）该 TLD 服务器注意到 b.com 前缀，向本地 DNS 服务器返回权威 DNS 服务器的 IP 地址。</p>
+<p>（6）本地 DNS 服务器又向其中一台权威服务器发送查询报文；</p>
+<p>（7）该权威服务器返回了 a.b.com 的 IP 地址；</p>
+<p>（8）本地 DNS 服务器将 a.b.com 跟 IP 地址的映射返回给主机 m.n.com，m.n.com 就可以用该 IP 向 a.b.com 发送请求了。</p>
+<h3 id="1、递归"><a href="#1、递归" class="headerlink" title="1、递归"></a>1、递归</h3><p>主机 m.n.com 向本地 DNS 服务器 dns.n.com 发出的查询就是递归查询，这个查询是主机 m.n.com 以自己的名义向本地 DNS 服务器请求想要的 IP 映射，并且本地 DNS 服务器直接返回映射结果给到主机。</p>
+<h3 id="2、迭代"><a href="#2、迭代" class="headerlink" title="2、迭代"></a>2、迭代</h3><p>而后继的三个查询是迭代查询，包括本地 DNS 服务器向根 DNS 服务器发送查询请求、本地 DNS 服务器向 TLD 服务器发送查询请求、本地 DNS 服务器向权威 DNS 服务器发送查询请求，所有的请求都是由本地 DNS 服务器发出，所有的响应都是直接返回给本地 DNS 服务器。</p>
+<h3 id="3、另一种-DNS-查询"><a href="#3、另一种-DNS-查询" class="headerlink" title="3、另一种 DNS 查询"></a>3、另一种 DNS 查询</h3><p>从理论上讲，任何 DNS 查询既可以是递归的，也可以是迭代的。下图的所有查询就都是递归的，不包含迭代。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bd1422f81c2647a19cde72cb9694bc89~tplv-k3u1fbpfcp-zoom-in-crop-mark:1512:0:0:0.webp"
+                      alt="图3"
+                ></p>
+<h4 id="TLD-一定知道权威-DNS-服务器的-IP-地址吗？"><a href="#TLD-一定知道权威-DNS-服务器的-IP-地址吗？" class="headerlink" title="TLD 一定知道权威 DNS 服务器的 IP 地址吗？"></a>TLD 一定知道权威 DNS 服务器的 IP 地址吗？</h4><p>不一定，有时 TLD 只是知道中间的某个 DNS 服务器，再由这个中间 DNS 服务器去找到权威 DNS 服务器。</p>
+<p>这种情况不仅增加了延迟，还使得网络上需要传输更多的数据包，也会产生更多的 DNS 报文。</p>
+<h2 id="五、DNS-缓存"><a href="#五、DNS-缓存" class="headerlink" title="五、DNS 缓存"></a>五、DNS 缓存</h2><p>为了更快的拿到想要的 IP，DNS 广泛使用了缓存技术。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在一个 DNS 查询的过程中，当某台 DNS 服务器接收到一个 DNS 应答（例如：包含某主机名到 IP 地址的映射）时，它会将映射缓存到本地，下次查询就能直接用缓存里的内容。</p>
+<p>缓存并不是永久的，每一条映射记录都有对应的生存时间，一旦过了生存时间，该条记录就会从缓存移出。</p>
+<p>事实上，有了缓存，大多数 DNS 查询都绕过了根 DNS 服务器，需要向根 DNS 服务器发起查询的请求很少。</p>
+]]></content>
+      <categories>
+        <category>计算机网络 - DNS</category>
+      </categories>
+      <tags>
+        <tag>面经</tag>
+        <tag>计算机网络</tag>
+        <tag>DNS</tag>
       </tags>
   </entry>
 </search>
