@@ -729,7 +729,9 @@
 <li>查询参数</li>
 <li>锚点</li>
 </ul>
+<p><a href="./22-%E6%B5%8F%E8%A7%88%E5%99%A8%E8%A7%A3%E6%9E%90url%E8%BF%87%E7%A8%8B.md">浏览器解析url过程</a></p>
 <h2 id="2-DNS-查询"><a href="#2-DNS-查询" class="headerlink" title="2. DNS 查询"></a>2. DNS 查询</h2><p>浏览器需要将域名转换为IP地址，以便进行网络通信。<br>此时，浏览器会查找本地DNS缓存，如果没有找到，就会向系统的DNS服务器发送请求。DNS服务器将返回对应的IP地址。</p>
+<p><a href="./25-DNS.md">DNS</a></p>
 <h2 id="3-TCP连接"><a href="#3-TCP连接" class="headerlink" title="3. TCP连接"></a>3. TCP连接</h2><p>一旦获得了IP地址，浏览器通过TCP（传输控制协议）建立与目标服务器的连接。<br>对于HTTPS请求，还需要进行SSL&#x2F;TLS握手，以确保安全性。这一过程包括：</p>
 <ul>
 <li>客户端向服务器发送连接请求</li>
@@ -1087,10 +1089,13 @@
                 ></p>
 <h4 id="TLD-一定知道权威-DNS-服务器的-IP-地址吗？"><a href="#TLD-一定知道权威-DNS-服务器的-IP-地址吗？" class="headerlink" title="TLD 一定知道权威 DNS 服务器的 IP 地址吗？"></a>TLD 一定知道权威 DNS 服务器的 IP 地址吗？</h4><p>不一定，有时 TLD 只是知道中间的某个 DNS 服务器，再由这个中间 DNS 服务器去找到权威 DNS 服务器。</p>
 <p>这种情况不仅增加了延迟，还使得网络上需要传输更多的数据包，也会产生更多的 DNS 报文。</p>
-<h2 id="五、DNS-缓存"><a href="#五、DNS-缓存" class="headerlink" title="五、DNS 缓存"></a>五、DNS 缓存</h2><p>为了更快的拿到想要的 IP，DNS 广泛使用了缓存技术。</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在一个 DNS 查询的过程中，当某台 DNS 服务器接收到一个 DNS 应答（例如：包含某主机名到 IP 地址的映射）时，它会将映射缓存到本地，下次查询就能直接用缓存里的内容。</p>
+<h2 id="五、DNS-优化"><a href="#五、DNS-优化" class="headerlink" title="五、DNS 优化"></a>五、DNS 优化</h2><h3 id="1、DNS-缓存"><a href="#1、DNS-缓存" class="headerlink" title="1、DNS 缓存"></a>1、DNS 缓存</h3><p>DNS 存在多级缓存，从离浏览器的距离排序，有以下几种：<br>浏览器缓存，系统缓存，路由器缓存，IPS 服务器缓存，根域名服务器缓存，顶级域名服务器缓存，主域名服务器缓存。</p>
+<ul>
+<li>在chrome浏览器中输入 <code>chrome://net-internals/#dns</code>，可以看到chrome浏览器的DNS缓存</li>
+<li>系统缓存主要存在 <code>/etc/hosts</code> （Linux系统）中</li>
+</ul>
 <p>缓存并不是永久的，每一条映射记录都有对应的生存时间，一旦过了生存时间，该条记录就会从缓存移出。</p>
-<p>事实上，有了缓存，大多数 DNS 查询都绕过了根 DNS 服务器，需要向根 DNS 服务器发起查询的请求很少。</p>
+<h3 id="2、DNS-负载均衡"><a href="#2、DNS-负载均衡" class="headerlink" title="2、DNS 负载均衡"></a>2、DNS 负载均衡</h3><p>访问某网站的时候，每次响应的很可能不是同一个服务器（IP 地址不同），因为一般公司都有多台服务器来支撑访问，而 DNS 会返回一个合适的机器的 IP 给用户（<strong>根据每台机器的负载量、该机器和用户地理位置的距离等</strong>），这就是 DNS 负载均衡。</p>
 ]]></content>
       <categories>
         <category>计算机网络 - DNS</category>
