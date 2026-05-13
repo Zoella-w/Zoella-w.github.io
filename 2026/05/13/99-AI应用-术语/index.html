@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="Gabrielle">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set data attribute for CSS variables
+                root.setAttribute("data-theme", theme);
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes once DOM is ready
+            if (document.readyState !== "loading") {
+                document.body.classList.add(theme + "-mode");
+            } else {
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add(theme + "-mode");
+                    document.body.classList.remove((theme === DARK ? LIGHT : DARK) + "-mode");
+                });
+            }
+        })();
+    </script>
+    
+    <!-- Critical CSS to prevent flash -->
+    <style>
+        :root[data-theme="dark"] {
+            --background-color: #202124;
+            --background-color-transparent: rgba(32, 33, 36, 0.6);
+            --second-background-color: #2d2e32;
+            --third-background-color: #34353a;
+            --third-background-color-transparent: rgba(32, 33, 36, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #ffffff;
+            --second-text-color: #eeeeee;
+            --third-text-color: #bebec6;
+            --fourth-text-color: #999999;
+            --default-text-color: #bebec6;
+            --invert-text-color: #373D3F;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(255, 255, 255, 0.08);
+            --shadow-color-2: rgba(255, 255, 255, 0.05);
+        }
+        
+        :root[data-theme="light"] {
+            --background-color: #fff;
+            --background-color-transparent: rgba(255, 255, 255, 0.6);
+            --second-background-color: #f8f8f8;
+            --third-background-color: #f2f2f2;
+            --third-background-color-transparent: rgba(241, 241, 241, 0.6);
+            --primary-color: #0066CC;
+            --first-text-color: #16171a;
+            --second-text-color: #2f3037;
+            --third-text-color: #5e5e5e;
+            --fourth-text-color: #eeeeee;
+            --default-text-color: #373D3F;
+            --invert-text-color: #bebec6;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --selection-color: #0066CC;
+            --shadow-color-1: rgba(0, 0, 0, 0.08);
+            --shadow-color-2: rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+        
+        /* Apply body classes as soon as DOM is ready */
+        :root[data-theme="dark"] body {
+            background-color: var(--background-color);
+            color: var(--default-text-color);
+        }
+    </style>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://zoella-w.github.io/2026/05/13/99-ai应用-术语/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+    
+        
+        <meta name="description" content="Gabrielle的博客小屋">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI应用-术语">
+<meta property="og:url" content="https://zoella-w.github.io/2026/05/13/99-AI%E5%BA%94%E7%94%A8-%E6%9C%AF%E8%AF%AD/index.html">
+<meta property="og:site_name" content="Gabrielle&#39;s Cabin">
+<meta property="og:description" content="Gabrielle的博客小屋">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-05-13T14:27:46.000Z">
+<meta property="article:modified_time" content="2026-05-13T14:55:44.772Z">
+<meta property="article:author" content="Gabrielle">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="AI应用">
+<meta name="twitter:card" content="summary">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/static/cat-logo.svg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/static/cat-logo.svg">
+    <meta name="theme-color" content="#474D95">
+    <link rel="shortcut icon" href="/images/static/cat-logo.svg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            AI应用-术语 | Gabrielle&#39;s Cabin
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"zoella-w.github.io","root":"/","language":"en","path":"search.json"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":6,"number":true,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#474D95","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":true},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":true,"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"静水流深，沉者行远。","subtitle":{"text":["Tomorrow is another day."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":90,"backing_speed":60,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":{"github":"https://github.com/Zoella-w","instagram":null,"zhihu":"https://www.zhihu.com/people/serein-32-5","twitter":null,"email":"2695969122@qq.com"},"qrs":{"weixin":"/images/code-weixin.webp"}}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":true,"version":"9.3.0"}},"version":"2.8.5","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Categories":{"path":"/categories","icon":"fa-regular fa-bookmark"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"},"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"About":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/Zoella-w"}}},"search":{"enable":true,"preload":true},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"about":{"About":{"icon":"fa-solid fa-user","path":"/about/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":null,"show_on_mobile":true,"links":{"Archives":{"path":"/archives","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags","icon":"fa-regular fa-tags"}}},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footerStart":"2023/11/2 18:00:00"};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+                <a class="logo-image h-8 w-8 sm:w-10 sm:h-10 mr-3" href="/">
+                    <img src="/images/static/cat-logo.svg" class="w-full h-full rounded-xs">
+                </a>
+            
+            <a class="logo-title" href="/">
+                
+                Gabrielle&#39;s Cabin
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories"
+                                        >
+                                    <i class="fa-regular fa-bookmark fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown"
+                                   href="#"
+                                        onClick=&#34;return false;&#34;>
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    <i class="fa-solid fa-chevron-down fa-fw"></i>
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                        
+                                            <li>
+                                                <a href="/about">
+                                                    ME
+                                                </a>
+                                            </li>
+                                        
+                                            <li>
+                                                <a target="_blank" rel="noopener" href="https://github.com/Zoella-w">
+                                                    GITHUB
+                                                </a>
+                                            </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories"
+                        >
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-bookmark fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags"
+                        >
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives"
+                        >
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item-sub text-base my-1.5 flex flex-col w-full">
+                        
+                        <div class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary cursor-pointer text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                             navbar-data-toggle="submenu-About"
+                        >
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-solid fa-chevron-right fa-sm fa-fw transition-all"></i>
+                            
+                        </div>
+                        
+
+                        
+                            <div class="flex-col items-start px-2 py-2 hidden" data-target="submenu-About">
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           href="/about">ME</a>
+                                    </div>
+                                
+                                    <div class="drawer-navbar-item text-base flex flex-col justify-center items-start hover:underline active:underline hover:underline-offset-1 rounded-3xl">
+                                        <a class=" text-third-text-color text-xl"
+                                           target="_blank" rel="noopener" href="https://github.com/Zoella-w">GITHUB</a>
+                                    </div>
+                                
+                            </div>
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    
+                    
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">26</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">21</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">99</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">AI应用-术语</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+				<img src="/images/static/ariana-avatar.png">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">Gabrielle</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-05-13 22:27:46</span>
+        <span class="mobile">2026-05-13 22:27:46</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-05-13 22:55:44</span>
+            <span class="mobile">2026-05-13 22:55:44</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI%E5%BA%94%E7%94%A8-%E5%9F%BA%E7%A1%80/">AI应用 - 基础</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI/">AI</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/AI%E5%BA%94%E7%94%A8/">AI应用</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.2k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>7 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="Prompt（提示词）"><a href="#Prompt（提示词）" class="headerlink" title="Prompt（提示词）"></a>Prompt（提示词）</h2><h3 id="定义​"><a href="#定义​" class="headerlink" title="定义​"></a>定义​</h3><p>Prompt 是用户给 AI 的指令——用自然语言告诉它要做什么，是控制 AI 输出的基础工具。</p>
+<h3 id="例子​"><a href="#例子​" class="headerlink" title="例子​"></a>例子​</h3><ul>
+<li>“帮我写一段 Java 代码，实现用户登录校验。”</li>
+<li>“用小学生能听懂的话解释 JVM。”</li>
+<li>“假设你是 Java 架构师，帮我设计一个高可用订单系统。”</li>
+</ul>
+<h3 id="核心特点​"><a href="#核心特点​" class="headerlink" title="核心特点​"></a>核心特点​</h3><ul>
+<li>本质是一次性的自然语言指令或可复用的模板。</li>
+<li>质量决定输出质量：清晰的 prompt 带来精准结果，模糊的 prompt 导致回答笼统。</li>
+<li>通常是即时、一次性的，除非刻意保存，否则只存在于当前对话。</li>
+</ul>
+<h3 id="为什么重要​"><a href="#为什么重要​" class="headerlink" title="为什么重要​"></a>为什么重要​</h3><p>AI 没有“读心术”，它只会按你给的指令执行。Prompt engineering 的核心就是把需求讲清楚、说精准。比如：</p>
+<ul>
+<li>模糊指令：<ul>
+<li>“给我讲一下 Redis。” → 回答可能泛泛而谈。</li>
+</ul>
+</li>
+<li>清晰指令：<ul>
+<li>“以 Java 后端工程师视角，结合高并发场景，讲解 Redis 缓存策略和缓存穿透的解决方案。” → 回答会聚焦实践，包含代码示例和避坑指南。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Skills（技能包）"><a href="#Skills（技能包）" class="headerlink" title="Skills（技能包）"></a>Skills（技能包）</h2><h3 id="定义​-1"><a href="#定义​-1" class="headerlink" title="定义​"></a>定义​</h3><p>Skills 是可复用、动态加载的专业能力包。它把结构化的流程、知识、操作指导封装起来，让 AI 在执行特定复杂任务时调用。</p>
+<h3 id="核心特点​-1"><a href="#核心特点​-1" class="headerlink" title="核心特点​"></a>核心特点​</h3><ul>
+<li>不是给 AI “装工具”，而更像是提供专业手册、操作说明和业务流程模板。</li>
+<li>包括指令、方法、脚本、资源等，可在不同对话或项目中重复使用。</li>
+<li>当 AI 判断需求匹配时，会自动加载对应的 skill 来辅助完成任务。</li>
+</ul>
+<h3 id="例子​-1"><a href="#例子​-1" class="headerlink" title="例子​"></a>例子​</h3><ul>
+<li>代码编写 skill：包含代码规范、常用模式、调试步骤。</li>
+<li>竞品分析 skill：包含数据检索步骤、分析框架、输出格式。</li>
+</ul>
+<h3 id="为什么重要​-1"><a href="#为什么重要​-1" class="headerlink" title="为什么重要​"></a>为什么重要​</h3><p>AI 不再是简单的一问一答。当你提出一个目标，AI 需要自己拆解步骤、选择合适的方法来执行。Skills 决定了 AI 能否精准匹配你的需求，把事做成。可以说，prompt 是单次指令，skills 是封装好的、可重复使用的专业解决步骤。</p>
+<h2 id="Projects（项目-工作区）"><a href="#Projects（项目-工作区）" class="headerlink" title="Projects（项目&#x2F;工作区）"></a>Projects（项目&#x2F;工作区）</h2><h3 id="定义​-2"><a href="#定义​-2" class="headerlink" title="定义​"></a>定义​</h3><p>Projects 是一个持久的上下文空间，用来集中管理单个任务所需的背景资料、知识库和文件。它让 AI 可以在一个项目内持续利用这些信息，不必每次重复上传或解释背景。</p>
+<h3 id="例子​-2"><a href="#例子​-2" class="headerlink" title="例子​"></a>例子​</h3><ul>
+<li>从 0 到 1 设计博客</li>
+<li>开发自动生成周报的工具</li>
+<li>搭建一套 AI 客服系统</li>
+</ul>
+<h3 id="核心特点​-2"><a href="#核心特点​-2" class="headerlink" title="核心特点​"></a>核心特点​</h3><ul>
+<li>提供独立的、带有大上下文窗口的工作区。</li>
+<li>项目内所有背景资料始终可用，任务推进更连贯。</li>
+<li>解决之前对话中上下文遗忘、需要反复沟通的问题。</li>
+</ul>
+<h3 id="为什么重要​-2"><a href="#为什么重要​-2" class="headerlink" title="为什么重要​"></a>为什么重要​</h3><p>真实世界的任务往往包含多个环节：理解需求、拆解步骤、选择工具、执行、修正、交付。Projects 把工作场景固定化和集中化，让复杂任务的推进更连贯、更高效。</p>
+<h2 id="MCP（模型上下文协议）"><a href="#MCP（模型上下文协议）" class="headerlink" title="MCP（模型上下文协议）"></a>MCP（模型上下文协议）</h2><h3 id="定义​-3"><a href="#定义​-3" class="headerlink" title="定义​"></a>定义​</h3><p>MCP 全称 Model Context Protocol，是一套让 AI 安全、规范地接入外部数据源和工具的开放协议标准。它通过标准化接口实现 AI 与外部资源的对接。</p>
+<h3 id="作用​"><a href="#作用​" class="headerlink" title="作用​"></a>作用​</h3><ul>
+<li>让 AI 能够合法、受控地访问企业数据库、业务系统、云盘、API 等外部资源。</li>
+<li>解决大模型无法天然访问外部工具和数据的问题。</li>
+<li>核心价值是可控性：防止 AI 乱调用接口、越权操作，且所有操作可追溯。</li>
+</ul>
+<h3 id="为什么重要​-3"><a href="#为什么重要​-3" class="headerlink" title="为什么重要​"></a>为什么重要​</h3><p>没有 MCP，AI 只能出方案，但无法动手操作真实系统。有了 MCP，AI 才能真正成为可落地、可靠、可连接现实业务的企业级工具。</p>
+<h2 id="Agent（智能体-代理）"><a href="#Agent（智能体-代理）" class="headerlink" title="Agent（智能体&#x2F;代理）"></a>Agent（智能体&#x2F;代理）</h2><h3 id="定义​-4"><a href="#定义​-4" class="headerlink" title="定义​"></a>定义​</h3><p>Agent 是一个能够自主理解目标、规划步骤、调用工具（如 Skills、MCP 接口）并执行任务，直到达成目标的 AI 系统。它是一个能独立干活儿的“数字员工”。</p>
+<h3 id="核心特点​-3"><a href="#核心特点​-3" class="headerlink" title="核心特点​"></a>核心特点​</h3><ul>
+<li>自主性：给定一个目标后，它能自己拆解任务、做决策、执行，不需要你一步步指挥。</li>
+<li>工具调用：它可以主动使用各种工具，比如联网搜索、运行代码、调用数据库（通过 MCP）、运用封装好的 Skills。</li>
+<li>持续运行：它会围绕一个复杂目标持续工作，在遇到问题时能尝试不同方法，直到任务完成或无法进行。</li>
+</ul>
+<h3 id="例子​-3"><a href="#例子​-3" class="headerlink" title="例子​"></a>例子​</h3><ul>
+<li>数据分析 Agent：你告诉它“分析上周的销售数据，找出下降原因并生成报告”。它会自动：1）连接数据库取数；2）清洗和分析数据；3）发现异常指标；4）撰写包含图表和结论的报告。</li>
+<li>旅行规划 Agent：你输入“规划一个为期五天的北京家庭游”。它会自动：1）搜索景点和酒店；2）安排每日行程；3）估算预算；4）生成一份详细的行程单。</li>
+</ul>
+<h3 id="为什么重要​-4"><a href="#为什么重要​-4" class="headerlink" title="为什么重要​"></a>为什么重要​</h3><p>Agent 代表了 AI 从“被动应答”到“主动执行”的跨越。它把之前提到的 Prompt（指令）、Skills（技能）、Projects（上下文）和 MCP（连接工具）全部整合起来，自动完成端到端的复杂工作。这让你能从繁琐的步骤管理中解放出来，更专注于定义目标和审核结果。</p>
+<h2 id="Harness-Engineering（控制工程）"><a href="#Harness-Engineering（控制工程）" class="headerlink" title="Harness Engineering（控制工程）"></a>Harness Engineering（控制工程）</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>Harness Engineering 是为确保 AI 系统（特别是 Agent）的行为安全、可靠、可控而建立的一系列工程方法、规则和保障机制。其核心是为强大的 AI 能力套上“缰绳”，防止不可预测或有害的行为。</p>
+<h3 id="核心特点"><a href="#核心特点" class="headerlink" title="核心特点"></a>核心特点</h3><ul>
+<li>预设行为边界：为 AI 设定明确的行动范围，规定其可执行与禁止执行的操作。</li>
+<li>过程监控与审计：全程记录 AI 的决策逻辑、工具调用与操作结果，确保其行为可追溯、可审查。</li>
+<li>关键节点干预：在涉及高风险或关键决策时，系统可自动暂停并引入人工审核。</li>
+<li>安全降级机制：当AI遇到不确定性高或超出其处理能力的情况时，能自动切换到预设的安全处理流程。</li>
+</ul>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><ul>
+<li>一个用于处理客户投诉邮件的 AI 客服助理，在控制工程框架下会按如下方式工作：<ul>
+<li>边界设定：被明确规定禁止向客户做出任何形式的赔偿承诺。</li>
+<li>流程监控：所有生成的回复内容都会经过一层合规性扫描，确保用语恰当。</li>
+<li>人工干预：当识别到客户情绪愤怒或问题复杂时，自动生成工单并将对话转接给人工客服处理。</li>
+<li>操作记录：整个处理过程，包括对客户历史订单的查询记录，都会被完整存档以供事后审计。</li>
+</ul>
+</li>
+</ul>
+<h3 id="为什么重要"><a href="#为什么重要" class="headerlink" title="为什么重要"></a>为什么重要</h3><p>随着 AI 自主性的增强，其行动一旦失误，可能直接导致业务损失、安全风险或法律问题。控制工程是将 AI 从“实验室原型”转化为“可投入实际业务、可被信任的生产力工具”的关键桥梁。它通过系统化的约束与保障，在赋予 AI 自动执行能力的同时，有效管理其潜在风险，确保其行为始终符合业务规范与安全要求。</p>
+<h2 id="总结：这六个概念如何协同工作"><a href="#总结：这六个概念如何协同工作" class="headerlink" title="总结：这六个概念如何协同工作"></a>总结：这六个概念如何协同工作</h2><p>将它们串联起来，就构成了一个现代 AI 系统从理解指令到安全交付成果的完整工作流：</p>
+<ol>
+<li>Prompt 是沟通的起点，你用自然语言准确地向 AI 下达任务目标，定义要做什么。</li>
+<li>Agent 作为智能中枢被激活，它理解目标后，在 Project 这个专属的持久化工作空间内，开始自主规划和推进任务。</li>
+<li>为了执行具体步骤，Agent 会从 Skills 库中调用封装好的专业能力包，并遵循其标准化流程；同时，通过 MCP 定义的安全协议，它能够连接并操作外部的数据库、API 等真实资源，获取信息或执行动作。</li>
+<li>在整个过程中，Harness Engineering 所构建的约束、监控与安全机制全程生效，确保 Agent 的所有行为都在预设的安全边界内，过程可控、结果可靠。</li>
+</ol>
+<h3 id="简单概括"><a href="#简单概括" class="headerlink" title="简单概括"></a>简单概括</h3><p>• Prompt 让 AI 听懂指令。<br>• Skills 让 AI 按专业流程做事。<br>• Projects 为 AI 提供连贯的上下文。<br>• MCP 让 AI 连接真实世界。<br>• Agent 让 AI 自主协调资源完成任务。<br>• Harness Engineering 确保 AI 的使用可控、可靠。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> AI应用-术语</li>
+        <li><strong>Author:</strong> Gabrielle</li>
+        <li><strong>Created at
+                :</strong> 2026-05-13 22:27:46</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-05-13 22:55:44
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://zoella-w.github.io/2026/05/13/99-AI应用-术语/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI/">#AI</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI%E5%BA%94%E7%94%A8/">#AI应用</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/02/11/98-Ling-Algorithm-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Ling-Algorithm-二分查找</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">AI应用-术语</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Prompt%EF%BC%88%E6%8F%90%E7%A4%BA%E8%AF%8D%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">Prompt（提示词）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E2%80%8B"><span class="nav-number">1.1.</span> <span class="nav-text">定义​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%E2%80%8B"><span class="nav-number">1.2.</span> <span class="nav-text">例子​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9%E2%80%8B"><span class="nav-number">1.3.</span> <span class="nav-text">核心特点​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%E2%80%8B"><span class="nav-number">1.4.</span> <span class="nav-text">为什么重要​</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Skills%EF%BC%88%E6%8A%80%E8%83%BD%E5%8C%85%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">Skills（技能包）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E2%80%8B-1"><span class="nav-number">2.1.</span> <span class="nav-text">定义​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9%E2%80%8B-1"><span class="nav-number">2.2.</span> <span class="nav-text">核心特点​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%E2%80%8B-1"><span class="nav-number">2.3.</span> <span class="nav-text">例子​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%E2%80%8B-1"><span class="nav-number">2.4.</span> <span class="nav-text">为什么重要​</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Projects%EF%BC%88%E9%A1%B9%E7%9B%AE-%E5%B7%A5%E4%BD%9C%E5%8C%BA%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">Projects（项目&#x2F;工作区）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E2%80%8B-2"><span class="nav-number">3.1.</span> <span class="nav-text">定义​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%E2%80%8B-2"><span class="nav-number">3.2.</span> <span class="nav-text">例子​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9%E2%80%8B-2"><span class="nav-number">3.3.</span> <span class="nav-text">核心特点​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%E2%80%8B-2"><span class="nav-number">3.4.</span> <span class="nav-text">为什么重要​</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MCP%EF%BC%88%E6%A8%A1%E5%9E%8B%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">MCP（模型上下文协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E2%80%8B-3"><span class="nav-number">4.1.</span> <span class="nav-text">定义​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E2%80%8B"><span class="nav-number">4.2.</span> <span class="nav-text">作用​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%E2%80%8B-3"><span class="nav-number">4.3.</span> <span class="nav-text">为什么重要​</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Agent%EF%BC%88%E6%99%BA%E8%83%BD%E4%BD%93-%E4%BB%A3%E7%90%86%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">Agent（智能体&#x2F;代理）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E2%80%8B-4"><span class="nav-number">5.1.</span> <span class="nav-text">定义​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9%E2%80%8B-3"><span class="nav-number">5.2.</span> <span class="nav-text">核心特点​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90%E2%80%8B-3"><span class="nav-number">5.3.</span> <span class="nav-text">例子​</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%E2%80%8B-4"><span class="nav-number">5.4.</span> <span class="nav-text">为什么重要​</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Harness-Engineering%EF%BC%88%E6%8E%A7%E5%88%B6%E5%B7%A5%E7%A8%8B%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">Harness Engineering（控制工程）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">6.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%89%B9%E7%82%B9"><span class="nav-number">6.2.</span> <span class="nav-text">核心特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">6.3.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81"><span class="nav-number">6.4.</span> <span class="nav-text">为什么重要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A%E8%BF%99%E5%85%AD%E4%B8%AA%E6%A6%82%E5%BF%B5%E5%A6%82%E4%BD%95%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C"><span class="nav-number">7.</span> <span class="nav-text">总结：这六个概念如何协同工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%A6%82%E6%8B%AC"><span class="nav-number">7.1.</span> <span class="nav-text">简单概括</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2023</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">Gabrielle</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        99 posts in total
+                    </span>
+                    
+                        <span>
+                            121.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.8.5</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container">
+	<img src="">
+</div>
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/Swup.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/SwupSlideTheme.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/SwupProgressPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/SwupScrollPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    const swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/imageViewer.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/utils.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/main.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/layouts/navbarShrink.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/scrollTopBottom.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/lightDarkSwitch.js" ></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/layouts/categoryList.js" ></script>
+
+
+    <script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/localSearch.js" ></script>
+
+
+
+    <script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/codeBlock.js" ></script>
+
+
+
+    <script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/layouts/lazyload.js" ></script>
+
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/runtime.js" ></script>
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/assets/odometer-theme-minimal.css">
+
+
+
+  <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/Typed.min.js" ></script>
+  <script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/plugins/typed.js" ></script>
+
+
+
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.3.0/dist/mermaid.min.js"></script>
+    
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/plugins/mermaid.js" ></script>
+
+
+
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/anime.min.js" ></script>
+
+
+
+
+    <script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/tools/tocToggle.js" data-swup-reload-script></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/layouts/toc.js" data-swup-reload-script></script><script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/plugins/tabs.js" data-swup-reload-script></script>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.8.5/source/js/build/layouts/essays.js" data-swup-reload-script></script>
+
+
+
+
+	
+</body>
+
+</html>
